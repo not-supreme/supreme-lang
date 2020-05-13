@@ -17,17 +17,17 @@ int main( int argc, char **argv )
 			continue;
 
 		lexer_t lexer;
-		token_t token;
 
-		token.token_type = TOKEN_UNKNOWN;
+		lexer_init( &lexer, line_buffer );
 
-		init_lexer( &lexer, line_buffer );
-
-		while ( token.token_type != TOKEN_EOF )
+		for ( ;; )
 		{
-			token = lexer_scan_one( &lexer );
+			token_t token = lexer_scan_token( &lexer );
 
-			printf( "Token: %s \n", token_type_to_string( token.token_type ) );
+			printf( "Token: %s at %d:%d \n", token_type_to_string( token.token_type ), token.line_number, token.column_number );
+
+			if ( token.token_type == TOKEN_EOF )
+				break;
 		}
 	}
 

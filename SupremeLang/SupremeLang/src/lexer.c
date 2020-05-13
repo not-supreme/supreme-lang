@@ -2,85 +2,95 @@
 
 #include "../inc/lexer.h"
 
-void init_lexer( lexer_t *lexer, const char *source_code )
+void lexer_init( lexer_t *lexer, const char *source_code )
 {
 	lexer->line_number = lexer->column_number = 0;
 	lexer->source = source_code;
 	lexer->current = lexer->start = NULL;
 }
 
-token_t lexer_single_char_token( lexer_t *lexer, e_token_type token_type )
+bool lexer_is_eof( lexer_t *lexer )
+{
+	return *lexer->source == '\x00';
+}
+
+char lexer_peek( lexer_t *lexer )
+{
+	return *lexer->source;
+}
+
+char lexer_consume( lexer_t *lexer )
+{
+	char ch = *lexer->source;
+
+	lexer->source++;
+	lexer->column_number++;
+
+	return ch;
+}
+
+void lexer_handle_whitespace( lexer_t *lexer )
+{
+	while ( !lexer_is_eof( lexer ) )
+	{
+		char ch = lexer_peek( lexer );
+
+		switch ( ch )
+		{
+		case '\r':
+		case '\t':
+		case ' ':
+			lexer->column_number++;
+			break;
+
+		case '\n':
+			lexer->line_number++;
+			lexer->column_number = 0;
+			break;
+
+		default:
+			return;
+
+		}
+
+		lexer->source++;
+	}
+}
+
+token_t lexer_simple_token( lexer_t *lexer, e_token_type token_type )
 {
 	token_t token =
 	{
 		.token_type = token_type,
+		.line_number = lexer->line_number,
+		.column_number = lexer->column_number,
 		.span_start = lexer->start,
 		.span_end = lexer->start,
 	};
 
-	lexer->source++;
+	lexer_consume( lexer );
 
 	return token;
 }
 
-token_t lexer_end_of_input( lexer_t *lexer )
+token_t lexer_scan_token( lexer_t *lexer )
 {
-	token_t token =
-	{
-		.token_type = TOKEN_EOF,
-		.span_start = lexer->source,
-		.span_end = lexer->source,
-	};
+	lexer_handle_whitespace( lexer );
 
-	return token;
-}
-
-token_t lexer_unknown_token( lexer_t *lexer )
-{
-	token_t token =
-	{
-		.token_type = TOKEN_UNKNOWN,
-		.span_start = lexer->start,
-		.span_end = lexer->start,
-	};
-
-	// TODO: Print an error message?
-
-	lexer->source++;
-
-	return token;
-}
-
-token_t lexer_peek_one( lexer_t *lexer )
-{
-	token_t token =
-	{
-		.token_type = TOKEN_EOF,
-		.span_start = NULL,
-		.span_end = NULL
-	};
-
-	// read a token
-
-	return token;
-}
-
-token_t lexer_scan_one( lexer_t *lexer )
-{
-	if ( *lexer->source == '\x00' )
-		return lexer_end_of_input( lexer );
+	if ( lexer_is_eof( lexer ) )
+		return lexer_simple_token( lexer, TOKEN_EOF );
 
 	lexer->start = lexer->current = lexer->source;
 
-	char ch = lexer->source[ 0 ];
+	char ch = lexer_peek( lexer );
 
 	switch ( ch )
 	{
-	case '+': return lexer_single_char_token( lexer, TOKEN_OPERATOR_ADD );
-	case '-': return lexer_single_char_token( lexer, TOKEN_OPERATOR_SUB );
-	case '/': return lexer_single_char_token( lexer, TOKEN_OPERATOR_DIV );
-	case '*': return lexer_single_char_token( lexer, TOKEN_OPERATOR_MUL );
+	case '+': return lexer_simple_token( lexer, TOKEN_OPERATOR_ADD );
+	case '-': return lexer_simple_token( lexer, TOKEN_OPERATOR_SUB );
+	case '/': return lexer_simple_token( lexer, TOKEN_OPERATOR_DIV );
+	case '*': return lexer_simple_token( lexer, TOKEN_OPERATOR_MUL );
 	}
 
-	return lexer_unknown_token( lexer );
+	return lexer_simple_token( lexer, TOKEN_UNKNOWN );
 }

@@ -1,6 +1,8 @@
 #ifndef SUPREMELANG_LEXER_H
 #define SUPREMELANG_LEXER_H
 
+#include <stdbool.h>
+
 #include "token.h"
 
 typedef struct _lexer_t
@@ -13,9 +15,13 @@ typedef struct _lexer_t
 	const char *current;
 } lexer_t;
 
-void init_lexer( lexer_t *lexer, const char *source_code );
+void lexer_init( lexer_t *lexer, const char *source_code );
 
-token_t lexer_peek_one( lexer_t *lexer );
-token_t lexer_scan_one( lexer_t *lexer );
+bool lexer_is_eof( lexer_t *lexer );
+
+char lexer_peek( lexer_t *lexer );
+char lexer_consume( lexer_t *lexer );
+
+token_t lexer_scan_token( lexer_t *lexer );
 
 #endif // SUPREMELANG_LEXER_H

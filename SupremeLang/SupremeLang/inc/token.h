@@ -20,6 +20,9 @@ typedef struct _token_t
 {
 	e_token_type token_type;
 
+	int line_number;
+	int column_number;
+
 	const char *span_start;
 	const char *span_end;
 } token_t;
