@@ -31,6 +31,8 @@ const char *token_type_to_string( e_token_type token_type )
 //	hell :D
 void token_check_keyword( token_t *token )
 {
-	if ( check_substring_equality( token->span_start, token->span_end, "fn" ) ) token->token_type = TOKEN_KEYWORD_FN;
-	else if ( check_substring_equality( token->span_start, token->span_end, "var" ) ) token->token_type = TOKEN_KEYWORD_VAR;
+	if ( check_substring_equality( token->span_start, token->span_end, "fn" ) )
+		token->token_type = TOKEN_KEYWORD_FN;
+	else if ( check_substring_equality( token->span_start, token->span_end, "var" ) )
+		token->token_type = TOKEN_KEYWORD_VAR;
 }
