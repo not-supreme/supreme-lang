@@ -1,11 +1,37 @@
+#include <stdint.h>
 #include <stdio.h>
 
 #include "../inc/lexer.h"
 #include "../inc/token.h"
+#include "../inc/backend/backend_shared.h"
+#include "../inc/backend/backend_amd64.h"
 
 int main( int argc, char **argv )
 {
 	printf( "Supreme-Lang Compiler\n" );
+
+	{
+		uint8_t *encoded;
+		size_t size;
+		e_backend_error backend_error = amd64_assemble64(
+			"xor rax, rax; ret",
+			&encoded,
+			&size );
+
+		if ( backend_error != BACKEND_SUCCESS )
+		{
+			printf( "Backend failed!\n" );
+
+			return 1;
+		} else
+		{
+			for ( size_t i = 0; i < size; ++i )
+			{
+				printf( "%02x ", encoded[ i ] );
+			}
+			printf( "\n" );
+		}
+	}
 
 	char line_buffer[ 1024 ];
 

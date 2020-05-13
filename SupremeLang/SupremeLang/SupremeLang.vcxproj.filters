@@ -30,7 +30,7 @@
     <ClCompile Include="src\backend\backend_amd64.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\backend\backend_pe.c">
+    <ClCompile Include="src\linker\linker.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,10 +47,10 @@
     <ClInclude Include="inc\backend\backend_amd64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\backend\backend_pe.h">
+    <ClInclude Include="inc\backend\backend_shared.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\backend\backend_shared.h">
+    <ClInclude Include="inc\linker\linker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

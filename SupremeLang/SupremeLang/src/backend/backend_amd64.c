@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "../../inc/backend/backend_shared.h"
 #include "../../inc/backend/backend_amd64.h"
 #include "../../inc/keystone/keystone.h"

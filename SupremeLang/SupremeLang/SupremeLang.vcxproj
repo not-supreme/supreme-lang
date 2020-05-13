@@ -20,17 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\backend\backend_amd64.c" />
-    <ClCompile Include="src\backend\backend_pe.c" />
     <ClCompile Include="src\lexer.c" />
+    <ClCompile Include="src\linker\linker.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\string.c" />
     <ClCompile Include="src\token.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\backend\backend_amd64.h" />
-    <ClInclude Include="inc\backend\backend_pe.h" />
     <ClInclude Include="inc\backend\backend_shared.h" />
     <ClInclude Include="inc\lexer.h" />
+    <ClInclude Include="inc\linker\linker.h" />
     <ClInclude Include="inc\string.h" />
     <ClInclude Include="inc\token.h" />
   </ItemGroup>
@@ -90,12 +90,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(ProjectDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(ProjectDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -121,6 +123,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,6 +159,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
