@@ -5,6 +5,13 @@
 
 #define TOKEN_TO_STRING( token ) case TOKEN_##token: return #token;
 
+#define TOKEN_KEYWORD_CHECK( keyword, _token_type )									\
+	if ( check_substring_equality( token->span_start, token->span_end, keyword ) )	\
+	{																				\
+		token->token_type = _token_type;											\
+		return;																		\
+	}
+
 const char *token_type_to_string( e_token_type token_type )
 {
 	switch ( token_type )
@@ -31,6 +38,6 @@ const char *token_type_to_string( e_token_type token_type )
 //	hell :D
 void token_check_keyword( token_t *token )
 {
-	if ( check_substring_equality( token->span_start, token->span_end, "fn" ) ) token->token_type = TOKEN_KEYWORD_FN;
-	else if ( check_substring_equality( token->span_start, token->span_end, "var" ) ) token->token_type = TOKEN_KEYWORD_VAR;
+	TOKEN_KEYWORD_CHECK( "fn", TOKEN_KEYWORD_FN );
+	TOKEN_KEYWORD_CHECK( "var", TOKEN_KEYWORD_VAR );
 }
