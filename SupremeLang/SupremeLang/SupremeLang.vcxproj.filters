@@ -24,12 +24,18 @@
     <ClCompile Include="src\token.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\string.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\lexer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
