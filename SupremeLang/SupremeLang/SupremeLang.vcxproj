@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\lexer.c" />
     <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\token.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\lexer.h" />

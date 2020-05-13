@@ -1,17 +1,27 @@
 #ifndef SUPREMELANG_TOKEN_H
 #define SUPREMELANG_TOKEN_H
 
-typedef enum _TokenType
+typedef enum _e_token_type
 {
-	TOKEN_EOF
-} TokenType;
+	// Operators
+	TOKEN_OPERATOR_ADD,
+	TOKEN_OPERATOR_SUB,
+	TOKEN_OPERATOR_DIV,
+	TOKEN_OPERATOR_MUL,
 
-typedef struct _Token
+	// Misc
+	TOKEN_UNKNOWN,
+	TOKEN_EOF
+} e_token_type;
+
+const char *token_type_to_string( e_token_type token_type );
+
+typedef struct _token_t
 {
-	TokenType token_type;
+	e_token_type token_type;
 
 	const char *span_start;
 	const char *span_end;
-} Token;
+} token_t;
 
 #endif // SUPREMELANG_TOKEN_H

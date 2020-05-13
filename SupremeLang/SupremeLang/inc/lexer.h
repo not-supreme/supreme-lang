@@ -3,18 +3,19 @@
 
 #include "token.h"
 
-typedef struct _Lexer
+typedef struct _lexer_t
 {
 	int line_number;
 	int column_number;
 
+	const char *source;
 	const char *start;
 	const char *current;
-} Lexer;
+} lexer_t;
 
-void init_lexer( Lexer *lexer, const char *source_code );
+void init_lexer( lexer_t *lexer, const char *source_code );
 
-Token lexer_peek_one( Lexer *lexer );
-Token lexer_scan_one( Lexer *lexer );
+token_t lexer_peek_one( lexer_t *lexer );
+token_t lexer_scan_one( lexer_t *lexer );
 
 #endif // SUPREMELANG_LEXER_H
