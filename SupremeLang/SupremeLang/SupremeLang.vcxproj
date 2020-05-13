@@ -19,9 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\backend\backend_amd64.c" />
     <ClCompile Include="src\lexer.c" />
-    <ClCompile Include="src\linker\linker.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\string.c" />
     <ClCompile Include="src\token.c" />
