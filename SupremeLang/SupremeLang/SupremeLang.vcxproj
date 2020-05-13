@@ -19,12 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\backend\backend_amd64.c" />
+    <ClCompile Include="src\backend\backend_pe.c" />
     <ClCompile Include="src\lexer.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\string.c" />
     <ClCompile Include="src\token.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\backend\backend_amd64.h" />
+    <ClInclude Include="inc\backend\backend_pe.h" />
+    <ClInclude Include="inc\backend\backend_shared.h" />
     <ClInclude Include="inc\lexer.h" />
     <ClInclude Include="inc\string.h" />
     <ClInclude Include="inc\token.h" />
