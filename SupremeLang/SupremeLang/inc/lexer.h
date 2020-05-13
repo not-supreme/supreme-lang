@@ -12,7 +12,6 @@ typedef struct _lexer_t
 
 	const char *source;
 	const char *start;
-	const char *current;
 } lexer_t;
 
 void lexer_init( lexer_t *lexer, const char *source_code );
