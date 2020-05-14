@@ -76,7 +76,7 @@ const char *token_type_to_string( e_token_type token_type )
 
 int64_t token_get_integer( token_t *token )
 {
-	char previous_ch = token->span_end[ 1 ];
+	char previous_ch = *token->span_end;
 
 	*token->span_end = '\x00';
 
@@ -89,7 +89,7 @@ int64_t token_get_integer( token_t *token )
 
 double token_get_number( token_t *token )
 {
-	char previous_ch = token->span_end[ 1 ];
+	char previous_ch = *token->span_end;
 
 	*token->span_end = '\x00';
 
