@@ -20,3 +20,15 @@ bool check_substring_equality( const char *substring_start, const char *substrin
 
 	return true;
 }
+
+int64_t intern_string( const char *string )
+{
+	//	todo: implement that
+	return 0;
+}
+
+const char *get_interned_string( int64_t handle )
+{
+	//	todo: implement that
+	return NULL;
+}
