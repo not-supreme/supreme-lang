@@ -191,6 +191,39 @@ token_t lexer_handle_number( lexer_t *lexer )
 	return token;
 }
 
+token_t lexer_handle_string( lexer_t *lexer )
+{
+	token_t token =
+	{
+		.token_type = TOKEN_STRING,
+		.line_number = lexer->line_number,
+		.column_number = lexer->column_number,
+		.span_start = lexer->start,
+		.span_end = lexer->start,
+	};
+
+	lexer_consume( lexer );
+
+	while ( !lexer_is_eof( lexer ) )
+	{
+		char ch = lexer_peek( lexer );
+
+		if ( ch == '"' )
+		{
+			//	skip the closing "
+			lexer_consume( lexer );
+
+			break;
+		}
+
+		lexer_consume( lexer );
+	}
+
+	token.span_end = lexer->source;
+
+	return token;
+}
+
 token_t lexer_scan_token( lexer_t *lexer )
 {
 	lexer_handle_whitespace( lexer );
@@ -222,6 +255,8 @@ token_t lexer_scan_token( lexer_t *lexer )
 	case '}': return lexer_simple_token( lexer, TOKEN_CLOSING_BRACKET );
 	case '[': return lexer_simple_token( lexer, TOKEN_OPENING_SQUARE_BRACKET );
 	case ']': return lexer_simple_token( lexer, TOKEN_CLOSING_SQUARE_BRACKET );
+
+	case '"': return lexer_handle_string( lexer );
 	}
 
 	if ( is_alphabetic( ch ) )

@@ -102,10 +102,9 @@ double token_get_number( token_t *token )
 
 const char *token_get_string( token_t *token )
 {
-	//	todo:
-	//	- string interning
-	//	- return the actual string
-	return NULL;
+	intern_entry_t *entry = intern_substring( &token->span_start[ 1 ], &token->span_end[ -1 ] );
+
+	return entry->string_pointer;
 }
 
 void token_print( token_t *token )
@@ -122,8 +121,10 @@ void token_print( token_t *token )
 	}
 	else if ( token->token_type == TOKEN_STRING )
 	{
-		printf( "Token: %s (\"%s\") at %d:%d \n", token_type_to_string( token->token_type ),
-			token_get_string( token ), token->line_number, token->column_number );
+		intern_entry_t *entry = intern_substring( &token->span_start[ 1 ], &token->span_end[ -1 ] );
+
+		printf( "Token: %s (\"%s\" at %p) at %d:%d \n", token_type_to_string( token->token_type ),
+			entry->string_pointer, entry, token->line_number, token->column_number );
 	}
 	else
 	{
