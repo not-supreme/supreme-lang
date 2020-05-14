@@ -10,6 +10,8 @@ int main( int argc, char **argv )
 {
 	printf( "Supreme-Lang Compiler\n" );
 
+	amd64_assemble32( NULL, NULL, NULL );
+
 	char line_buffer[ 1024 ];
 
 	for ( ;; )
