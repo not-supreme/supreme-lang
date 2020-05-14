@@ -6,9 +6,9 @@
 
 using namespace asmjit;
 
-typedef int( *test_fn_t )( );
+typedef void( *test_fn_t )( );
 
-extern "C" e_backend_error amd64_assembleXX( bool x64, char *code, uint8_t **encoded, size_t *size )
+extern "C" e_backend_error amd64_assembleXX( bool x64, char *code, uint8_t * *encoded, size_t * size )
 {
 	JitRuntime runtime;
 	CodeHolder code_holder;
@@ -17,11 +17,15 @@ extern "C" e_backend_error amd64_assembleXX( bool x64, char *code, uint8_t **enc
 
 	x86::Assembler assembler( &code_holder );
 
-	assembler.mov( x86::rdi, (uintptr_t) "Hello, world!\n" );
-	assembler.call( ( uintptr_t ) printf );
-
-	assembler.mov( x86::eax, 1 );
+	assembler.mov( x86::rcx, ( uintptr_t )"Hello, world!\n" );
+	assembler.call( ( uintptr_t )printf );
 	assembler.ret( );
+
+	test_fn_t test_fn;
+
+	runtime.add( &test_fn, &code_holder );
+
+	test_fn( );
 
 	CodeBuffer &buffer = code_holder.textSection( )->buffer( );
 
@@ -31,12 +35,12 @@ extern "C" e_backend_error amd64_assembleXX( bool x64, char *code, uint8_t **enc
 	return BACKEND_SUCCESS;
 }
 
-extern "C" e_backend_error amd64_assemble32( char *code, uint8_t **encoded, size_t *size )
+extern "C" e_backend_error amd64_assemble32( char *code, uint8_t * *encoded, size_t * size )
 {
 	return amd64_assembleXX( false, code, encoded, size );
 }
 
-extern "C" e_backend_error amd64_assemble64( char *code, uint8_t **encoded, size_t *size )
+extern "C" e_backend_error amd64_assemble64( char *code, uint8_t * *encoded, size_t * size )
 {
 	return amd64_assembleXX( true, code, encoded, size );
 }
