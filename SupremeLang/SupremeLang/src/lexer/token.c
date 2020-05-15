@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../inc/string.h"
-#include "../inc/token.h"
+#include "../../inc/lexer/token.h"
+#include "../../inc/string.h"
 
 #define TOKEN_TO_STRING( token ) case TOKEN_##token: return #token;
 
@@ -72,6 +72,59 @@ const char *token_type_to_string( e_token_type token_type )
 	}
 
 	return NULL;
+}
+
+bool token_type_is_operator_in_place( e_token_type token_type )
+{
+	return token_type == TOKEN_OPERATOR_NOT
+		|| token_type == TOKEN_OPERATOR_ADD
+		|| token_type == TOKEN_OPERATOR_SUB
+		|| token_type == TOKEN_OPERATOR_DIV
+		|| token_type == TOKEN_OPERATOR_MUL
+		|| token_type == TOKEN_OPERATOR_REM
+		|| token_type == TOKEN_OPERATOR_LESS_THAN
+		|| token_type == TOKEN_OPERATOR_LESS_THAN_EQUAL
+		|| token_type == TOKEN_OPERATOR_GREATER_THAN
+		|| token_type == TOKEN_OPERATOR_GREATER_THAN_EQUAL
+		|| token_type == TOKEN_OPERATOR_EQUAL
+		|| token_type == TOKEN_OPERATOR_NOT_EQUAL
+		|| token_type == TOKEN_OPERATOR_ASSIGN;
+}
+
+bool token_type_is_operator_assign( e_token_type token_type )
+{
+	return token_type == TOKEN_OPERATOR_ADD_ASSIGN
+		|| token_type == TOKEN_OPERATOR_SUB_ASSIGN
+		|| token_type == TOKEN_OPERATOR_DIV_ASSIGN
+		|| token_type == TOKEN_OPERATOR_MUL_ASSIGN
+		|| token_type == TOKEN_OPERATOR_REM_ASSIGN;
+}
+
+bool token_type_is_operator( e_token_type token_type )
+{
+	return token_type_is_operator_in_place( token_type ) || token_type_is_operator_assign( token_type );
+}
+
+bool token_type_is_keyword( e_token_type token_type )
+{
+	return token_type == TOKEN_KEYWORD_FN
+		|| token_type == TOKEN_KEYWORD_VAR
+		|| token_type == TOKEN_KEYWORD_TRUE
+		|| token_type == TOKEN_KEYWORD_FALSE
+		|| token_type == TOKEN_KEYWORD_SWITCH
+		|| token_type == TOKEN_KEYWORD_FOR
+		|| token_type == TOKEN_KEYWORD_WHILE
+		|| token_type == TOKEN_KEYWORD_IF
+		|| token_type == TOKEN_KEYWORD_CONTINUE
+		|| token_type == TOKEN_KEYWORD_BREAK
+		|| token_type == TOKEN_KEYWORD_RETURN;
+}
+
+bool token_type_is_literal( e_token_type token_type )
+{
+	return token_type == TOKEN_NUMBER
+		|| token_type == TOKEN_INTEGER
+		|| token_type == TOKEN_STRING;
 }
 
 int64_t token_get_integer( token_t *token )

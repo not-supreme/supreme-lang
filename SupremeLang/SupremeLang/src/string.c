@@ -6,7 +6,7 @@
 #define INTERNER_MAX_LOAD 0.75
 #define GROW_CAPACITY( capacity ) ( ( capacity ) < 8 ? 8 : ( capacity ) * 2 )
 
-#define FNV1A_BASIS 0xcbf29ce484222325
+#define FNV1A_BASIS 0xCBF29CE484222325
 #define FNV1A_PRIME 0x100000001B3
 
 //	no need for it to be globally defined

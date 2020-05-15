@@ -3,14 +3,17 @@
 
 #include <stdbool.h>
 
+#include "lexer_error.h"
 #include "token.h"
 
 typedef struct _lexer_t
 {
+	lexer_error_t current_error;
+
 	int line_number;
 	int column_number;
 
-	char *source;
+	char *iterator;
 	char *start;
 } lexer_t;
 

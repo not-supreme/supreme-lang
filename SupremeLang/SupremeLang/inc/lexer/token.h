@@ -1,6 +1,7 @@
 #ifndef SUPREMELANG_TOKEN_H
 #define SUPREMELANG_TOKEN_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 typedef enum _e_token_type
@@ -57,6 +58,12 @@ typedef enum _e_token_type
 	TOKEN_SKIP,
 	TOKEN_EOF,
 } e_token_type;
+
+bool token_type_is_operator_in_place( e_token_type token_type );
+bool token_type_is_operator_assign( e_token_type token_type );
+bool token_type_is_operator( e_token_type token_type );
+bool token_type_is_keyword( e_token_type token_type );
+bool token_type_is_literal( e_token_type token_type );
 
 const char *token_type_to_string( e_token_type token_type );
 

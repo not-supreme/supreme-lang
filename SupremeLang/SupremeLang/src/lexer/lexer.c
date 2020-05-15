@@ -1,6 +1,7 @@
+#include <stdio.h>
 #include <stdlib.h>
 
-#include "../inc/lexer.h"
+#include "../../inc/lexer/lexer.h"
 
 bool is_alphabetic( char ch )
 {
@@ -19,14 +20,15 @@ bool is_alphanumeric( char ch )
 
 void lexer_init( lexer_t *lexer, char *source_code )
 {
+	lexer->current_error.has_error = false;
 	lexer->line_number = lexer->column_number = 0;
-	lexer->source = source_code;
+	lexer->iterator = source_code;
 	lexer->start = NULL;
 }
 
 bool lexer_is_eof( lexer_t *lexer )
 {
-	return *lexer->source == '\x00';
+	return *lexer->iterator == '\x00';
 }
 
 bool lexer_match_next( lexer_t *lexer, char ch )
@@ -34,7 +36,7 @@ bool lexer_match_next( lexer_t *lexer, char ch )
 	if ( lexer_is_eof( lexer ) )
 		return false;
 
-	bool matches = lexer->source[ 1 ] == ch;
+	bool matches = lexer->iterator[ 1 ] == ch;
 
 	if ( matches )
 		lexer_consume( lexer );
@@ -44,19 +46,19 @@ bool lexer_match_next( lexer_t *lexer, char ch )
 
 char lexer_peek( lexer_t *lexer )
 {
-	return *lexer->source;
+	return *lexer->iterator;
 }
 
 char lexer_peek_offset( lexer_t *lexer, int offset )
 {
-	return lexer->source[ offset ];
+	return lexer->iterator[ offset ];
 }
 
 char lexer_consume( lexer_t *lexer )
 {
-	char ch = *lexer->source;
+	char ch = *lexer->iterator;
 
-	lexer->source++;
+	lexer->iterator++;
 	lexer->column_number++;
 
 	return ch;
@@ -86,7 +88,7 @@ void lexer_handle_whitespace( lexer_t *lexer )
 
 		}
 
-		lexer->source++;
+		lexer->iterator++;
 	}
 }
 
@@ -106,7 +108,7 @@ token_t lexer_simple_token( lexer_t *lexer, e_token_type token_type )
 	return token;
 }
 
-token_t lexer_assign_operator( lexer_t* lexer, e_token_type if_true, e_token_type if_false )
+token_t lexer_assign_operator( lexer_t *lexer, e_token_type if_true, e_token_type if_false )
 {
 	return lexer_simple_token( lexer, lexer_match_next( lexer, '=' ) ? if_true : if_false );
 }
@@ -146,7 +148,7 @@ token_t lexer_handle_identifier( lexer_t *lexer )
 		lexer_consume( lexer );
 	}
 
-	token.span_end = lexer->source;
+	token.span_end = lexer->iterator;
 
 	token_check_keyword( &token );
 
@@ -181,18 +183,20 @@ token_t lexer_handle_number( lexer_t *lexer )
 			else
 				break;
 		}
-		
+
 		lexer_consume( lexer );
 	}
 
 	token.token_type = is_floating_point ? TOKEN_NUMBER : TOKEN_INTEGER;
-	token.span_end = lexer->source;
+	token.span_end = lexer->iterator;
 
 	return token;
 }
 
 token_t lexer_handle_string( lexer_t *lexer )
 {
+	bool string_terminated = false;
+
 	token_t token =
 	{
 		.token_type = TOKEN_STRING,
@@ -213,13 +217,25 @@ token_t lexer_handle_string( lexer_t *lexer )
 			//	skip the closing "
 			lexer_consume( lexer );
 
+			string_terminated = true;
+
 			break;
 		}
 
 		lexer_consume( lexer );
 	}
 
-	token.span_end = lexer->source;
+	if ( !string_terminated )
+	{
+		lexer->current_error.has_error = true;
+		lexer->current_error.description = "unterminated string";
+		lexer->current_error.line_number = lexer->line_number;
+		lexer->current_error.column_number = lexer->column_number;
+		lexer->current_error.span_start = lexer->iterator;
+		lexer->current_error.span_end = lexer->iterator;
+	}
+
+	token.span_end = lexer->iterator;
 
 	return token;
 }
@@ -231,7 +247,7 @@ token_t lexer_scan_token( lexer_t *lexer )
 	if ( lexer_is_eof( lexer ) )
 		return lexer_simple_token( lexer, TOKEN_EOF );
 
-	lexer->start = lexer->source;
+	lexer->start = lexer->iterator;
 
 	char ch = lexer_peek( lexer );
 	char next_ch = lexer_peek_offset( lexer, 1 );
