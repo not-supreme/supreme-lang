@@ -14,6 +14,7 @@ void parser_parse_number_literal( parser_t *parser );
 void parser_parse_integer_literal( parser_t *parser );
 void parser_parse_string_literal( parser_t *parser );
 
+//	https://en.wikipedia.org/wiki/Pratt_parser ^^
 parse_rule_t parse_rules[ ] =
 {
 	{ NULL, parser_parse_binary_expression, TOKEN_OPERATOR_ADD, PRECEDENCE_TERM },
