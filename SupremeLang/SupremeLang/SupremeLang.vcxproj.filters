@@ -18,60 +18,36 @@
     <ClCompile Include="src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\lexer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\token.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\string.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lexer\token.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lexer\lexer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parser\parser.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\lexer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\token.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inc\string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\backend\backend_amd64.h">
+    <ClInclude Include="inc\lexer\lexer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\backend\backend_shared.h">
+    <ClInclude Include="inc\lexer\token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\linker\linker.h">
+    <ClInclude Include="inc\lexer\lexer_error.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\keystone\x86.h">
+    <ClInclude Include="inc\parser\parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\keystone\arm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\keystone\arm64.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\keystone\hexagon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\keystone\keystone.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\keystone\mips.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\keystone\ppc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\keystone\sparc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\keystone\systemz.h">
+    <ClInclude Include="inc\parser\precedence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

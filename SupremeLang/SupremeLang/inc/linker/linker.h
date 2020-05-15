@@ -1,6 +1,0 @@
-#ifndef _SUPREMELANG_LINKER_H
-#define _SUPREMELANG_LINKER_H
-
-
-
-#endif // _SUPREMELANG_LINKER_H
