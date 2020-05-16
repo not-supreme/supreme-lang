@@ -49,6 +49,7 @@ const char *token_type_to_string( e_token_type token_type )
 		TOKEN_TO_STRING( CLOSING_SQUARE_BRACKET );
 
 		//	keywords
+		TOKEN_TO_STRING( KEYWORD_IMPORT );
 		TOKEN_TO_STRING( KEYWORD_FN );
 		TOKEN_TO_STRING( KEYWORD_VAR );
 		TOKEN_TO_STRING( KEYWORD_TRUE );
@@ -68,6 +69,7 @@ const char *token_type_to_string( e_token_type token_type )
 		TOKEN_TO_STRING( INTEGER );
 		TOKEN_TO_STRING( STRING );
 		TOKEN_TO_STRING( IDENTIFIER );
+		TOKEN_TO_STRING( SEMICOLON );
 		TOKEN_TO_STRING( UNKNOWN );
 	}
 
@@ -107,7 +109,8 @@ bool token_type_is_operator( e_token_type token_type )
 
 bool token_type_is_keyword( e_token_type token_type )
 {
-	return token_type == TOKEN_KEYWORD_FN
+	return token_type == TOKEN_KEYWORD_IMPORT
+		|| token_type == TOKEN_KEYWORD_FN
 		|| token_type == TOKEN_KEYWORD_VAR
 		|| token_type == TOKEN_KEYWORD_TRUE
 		|| token_type == TOKEN_KEYWORD_FALSE
@@ -179,6 +182,26 @@ void token_print( token_t *token )
 		printf( "Token: %s (\"%s\" at %p) at %d:%d \n", token_type_to_string( token->token_type ),
 			entry->string_pointer, entry, token->line_number, token->column_number );
 	}
+	else if ( token->token_type == TOKEN_IDENTIFIER )
+	{
+		char ch_span_end = token->span_end[ 0 ];
+
+		token->span_end[ 0 ] = '\x00';
+
+		printf( "Token: %s (%s) at %d:%d \n", token_type_to_string( token->token_type ),
+			token->span_start, token->line_number, token->column_number );
+
+		token->span_end[ 0 ] = ch_span_end;
+	}
+	else if ( token->token_type == TOKEN_UNKNOWN )
+	{
+		char token_ch = token->span_start[ 0 ];
+
+		bool printable = token_ch >= 32 && token_ch < 128;
+
+		printf( printable ? "Token: %s (%c) at %d:%d \n" : "Token: %s (%02X) at %d:%d \n",
+			token_type_to_string( token->token_type ), token_ch, token->line_number, token->column_number );
+	}
 	else
 	{
 		printf( "Token: %s at %d:%d \n", token_type_to_string( token->token_type ), token->line_number, token->column_number );
@@ -188,6 +211,7 @@ void token_print( token_t *token )
 //	hell :D
 void token_check_keyword( token_t *token )
 {
+	TOKEN_KEYWORD_CHECK( "import", TOKEN_KEYWORD_IMPORT );
 	TOKEN_KEYWORD_CHECK( "fn", TOKEN_KEYWORD_FN );
 	TOKEN_KEYWORD_CHECK( "var", TOKEN_KEYWORD_VAR );
 	TOKEN_KEYWORD_CHECK( "true", TOKEN_KEYWORD_TRUE );

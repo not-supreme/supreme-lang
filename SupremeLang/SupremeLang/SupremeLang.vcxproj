@@ -21,15 +21,12 @@
   <ItemGroup>
     <ClCompile Include="src\lexer\lexer.c" />
     <ClCompile Include="src\main.c" />
-    <ClCompile Include="src\parser\parser.c" />
     <ClCompile Include="src\string.c" />
     <ClCompile Include="src\lexer\token.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\lexer\lexer.h" />
     <ClInclude Include="inc\lexer\lexer_error.h" />
-    <ClInclude Include="inc\parser\parser.h" />
-    <ClInclude Include="inc\parser\precedence.h" />
     <ClInclude Include="inc\string.h" />
     <ClInclude Include="inc\lexer\token.h" />
   </ItemGroup>

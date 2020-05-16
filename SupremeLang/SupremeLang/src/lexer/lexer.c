@@ -272,6 +272,8 @@ token_t lexer_scan_token( lexer_t *lexer )
 	case '[': return lexer_simple_token( lexer, TOKEN_OPENING_SQUARE_BRACKET );
 	case ']': return lexer_simple_token( lexer, TOKEN_CLOSING_SQUARE_BRACKET );
 
+	case ';': return lexer_simple_token( lexer, TOKEN_SEMICOLON );
+
 	case '"': return lexer_handle_string( lexer );
 	}
 

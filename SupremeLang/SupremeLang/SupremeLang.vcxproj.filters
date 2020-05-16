@@ -27,9 +27,6 @@
     <ClCompile Include="src\lexer\lexer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\parser\parser.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\string.h">
@@ -42,12 +39,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\lexer\lexer_error.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\parser\parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\parser\precedence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
