@@ -69,6 +69,7 @@ const char *token_type_to_string( e_token_type token_type )
 		TOKEN_TO_STRING( INTEGER );
 		TOKEN_TO_STRING( STRING );
 		TOKEN_TO_STRING( IDENTIFIER );
+		TOKEN_TO_STRING( COLON );
 		TOKEN_TO_STRING( SEMICOLON );
 		TOKEN_TO_STRING( UNKNOWN );
 	}

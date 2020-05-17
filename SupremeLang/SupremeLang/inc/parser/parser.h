@@ -3,9 +3,12 @@
 
 #include "../lexer/token.h"
 #include "ast_node.h"
+#include "parser_error.h"
 
 typedef struct _parser_t
 {
+	parser_error_t error;
+
 	int tokens_length;
 	int tokens_capacity;
 
@@ -24,16 +27,23 @@ void parser_free( parser_t *parser );
 
 bool parser_is_eof( parser_t *parser );
 bool parser_matches( parser_t *parser, e_token_type token_type );
+bool parser_expect( parser_t *parser, e_token_type token_type );
 
 void parser_consume( parser_t *parser );
+void parser_error( parser_t *parser, const char *description );
 
 ast_node_t *parser_parse_expression( parser_t *parser );
-ast_node_t *parser_parse_equality( parser_t *parser );
-ast_node_t *parser_parse_comparison( parser_t *parser );
-ast_node_t *parser_parse_addition( parser_t *parser );
-ast_node_t *parser_parse_multiplication( parser_t *parser );
-ast_node_t *parser_parse_unary( parser_t *parser );
-ast_node_t *parser_parse_primary( parser_t *parser );
+ast_node_t *parser_parse_equality_expression( parser_t *parser );
+ast_node_t *parser_parse_comparison_expression( parser_t *parser );
+ast_node_t *parser_parse_addition_expression( parser_t *parser );
+ast_node_t *parser_parse_multiplication_expression( parser_t *parser );
+ast_node_t *parser_parse_unary_expression( parser_t *parser );
+ast_node_t *parser_parse_call_expression( parser_t *parser );
+ast_node_t *parser_parse_primary_expression( parser_t *parser );
+
+ast_node_t *parser_parse_statement( parser_t *parser );
+ast_node_t *parser_parse_variable_declaration( parser_t *parser );
+ast_node_t *parser_parse_function_declaration( parser_t *parser );
 
 void parser_process_token( parser_t *parser, token_t *token );
 void parser_generate_ast( parser_t *parser );

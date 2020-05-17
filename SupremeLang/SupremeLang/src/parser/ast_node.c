@@ -16,7 +16,7 @@ ast_node_t *ast_node_new( e_ast_node_type node_type )
 
 void ast_node_print_internal( ast_node_t *node, bool print_nl )
 {
-	if (node->node_type == AST_NODE_CONSTANT)
+	if ( node->node_type == AST_NODE_CONSTANT )
 	{
 		token_t *const_token = node->as.constant_value;
 
@@ -28,6 +28,18 @@ void ast_node_print_internal( ast_node_t *node, bool print_nl )
 			printf( print_nl ? "%f \n" : "%f", token_get_number( const_token ) );
 		else if ( const_token->token_type == TOKEN_STRING )
 			printf( print_nl ? "%s \n" : "%s", token_get_string( const_token ) );
+	}
+	else if ( node->node_type == AST_NODE_VARIABLE )
+	{
+		token_t *identifier_token = node->as.variable;
+
+		char span_end_ch = identifier_token->span_end[ 0 ];
+
+		identifier_token->span_end[ 0 ] = '\x00';
+
+		printf( print_nl ? "%s \n" : "%s", identifier_token->span_start );
+
+		identifier_token->span_end[ 0 ] = span_end_ch;
 	}
 	else if ( node->node_type == AST_NODE_GROUP_EXPRESSION )
 	{
@@ -65,16 +77,45 @@ void ast_node_print_internal( ast_node_t *node, bool print_nl )
 
 		op_token->span_end[ 1 ] = span_end_ch;
 
-		if ( node->as.binary_expr.right->node_type != AST_NODE_CONSTANT )
+		ast_node_print_internal( node->as.binary_expr.right, print_nl );
+	}
+	else if ( node->node_type == AST_NODE_CALL_EXPRESSION )
+	{
+		ast_node_print_internal( node->as.call_expr.call_target, false );
+
+		printf( print_nl ? "( ) \n" : "( )" );
+	}
+	else if ( node->node_type == AST_NODE_EXPRESSION_STATEMENT )
+	{
+		ast_node_print_internal( node->as.expression_stmt, print_nl );
+	}
+	else if ( node->node_type == AST_NODE_VARIABLE_DECLARATION )
+	{
+		token_t *identifier_token = node->as.variable_def.identifier;
+		token_t *type_identifier_token = node->as.variable_def.type;
+
+		char span_end_ch_ident = identifier_token->span_end[ 0 ];
+		char span_end_ch_type = type_identifier_token->span_end[ 0 ];
+
+		identifier_token->span_end[ 0 ] = '\x00';
+		type_identifier_token->span_end[ 0 ] = '\x00';
+
+		if ( node->as.variable_def.initial_value == NULL )
 		{
-			ast_node_t *group_node = ast_node_new( AST_NODE_GROUP_EXPRESSION );
+			printf( print_nl ? "var %s: %s \n" : "var %s: %s", identifier_token->span_start, type_identifier_token->span_start );
+		}
+		else
+		{
+			printf( "var %s: %s = ", identifier_token->span_start, type_identifier_token->span_start );
 
-			group_node->as.group_expression = node->as.binary_expr.right;
-
-			node->as.binary_expr.right = group_node;
+			ast_node_print_internal( node->as.variable_def.initial_value, print_nl ); 
 		}
 
-		ast_node_print_internal( node->as.binary_expr.right, print_nl );
+		identifier_token->span_end[ 0 ] = span_end_ch_ident;
+		type_identifier_token->span_end[ 0 ] = span_end_ch_type;
+	}
+	else if ( node->node_type == AST_NODE_FUNCTION_DECLARATION )
+	{
 	}
 }
 

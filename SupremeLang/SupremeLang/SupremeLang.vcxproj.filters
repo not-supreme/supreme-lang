@@ -59,5 +59,8 @@
     <ClInclude Include="inc\parser\parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="inc\parser\parser_error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

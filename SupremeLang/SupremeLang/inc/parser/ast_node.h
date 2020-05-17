@@ -7,10 +7,11 @@
 typedef struct _ast_node_t
 {
 	e_ast_node_type node_type;
-	
+
 	union
 	{
 		token_t *constant_value;
+		token_t *variable;
 
 		struct _ast_node_t *group_expression;
 		struct _unary_expr_t
@@ -24,6 +25,30 @@ typedef struct _ast_node_t
 			struct _ast_node_t *right;
 			token_t *op_token;
 		} binary_expr;
+		struct _call_expr_t
+		{
+			int argument_count;
+			int arguments_capacity;
+
+			struct _ast_node_t *call_target;
+			struct _ast_node_t *arguments;
+		} call_expr;
+
+		struct _ast_node_t *expression_stmt;
+		struct _variable_def_stmt_t
+		{
+			token_t *identifier;
+			token_t *type;
+
+			struct _ast_node_t *initial_value;
+		} variable_def;
+		struct _funtion_def_stmt_t
+		{
+			token_t *identifier;
+			token_t *return_type;
+
+			int argument_arity;
+		} funtion_def;
 	} as;
 } ast_node_t;
 
