@@ -1,0 +1,14 @@
+#ifndef SUPREMELANG_AST_NODE_TYPE_H
+#define SUPREMELANG_AST_NODE_TYPE_H
+
+#include "ast_node_type.h"
+
+typedef enum _e_ast_node_type
+{
+	AST_NODE_CONSTANT,
+	AST_NODE_GROUP_EXPRESSION,
+	AST_NODE_UNARY_EXPRESSION,
+	AST_NODE_BINARY_EXPRESSION,
+} e_ast_node_type;
+
+#endif // SUPREMELANG_AST_NODE_TYPE_H

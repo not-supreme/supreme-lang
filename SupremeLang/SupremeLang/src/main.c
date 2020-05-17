@@ -7,12 +7,17 @@
 
 #include "../inc/lexer/lexer.h"
 #include "../inc/lexer/token.h"
+#include "../inc/parser/parser.h"
 
 void run_script( char *script )
 {
 	lexer_t lexer;
 
+	parser_t parser;
+
 	lexer_init( &lexer, script );
+
+	parser_init( &parser );
 
 	for ( ;; )
 	{
@@ -29,11 +34,22 @@ void run_script( char *script )
 		if ( token.token_type == TOKEN_SKIP )
 			continue;
 
-		token_print( &token );
+		parser_process_token( &parser, &token );
 
 		if ( token.token_type == TOKEN_EOF )
 			break;
 	}
+
+	parser_generate_ast( &parser );
+
+	for ( int i = 0; i < parser.ast_length; i++ )
+	{
+		ast_node_t *node = &parser.nodes[ i ];
+
+		ast_node_print( node );
+	}
+
+	parser_free( &parser );
 }
 
 void run_from_file( const char *file_path )

@@ -80,6 +80,7 @@ typedef struct _token_t
 	char *span_end;
 } token_t;
 
+bool token_get_boolean( token_t *token );
 int64_t token_get_integer( token_t *token );
 double token_get_number( token_t *token );
 const char *token_get_string( token_t *token );
