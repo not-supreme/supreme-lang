@@ -27,6 +27,15 @@
     <ClCompile Include="src\lexer\lexer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\parser\parser.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parser\ast_node.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parser\parser_impl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\string.h">
@@ -39,6 +48,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\lexer\lexer_error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\parser\ast_node_type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\parser\ast_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\parser\parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
