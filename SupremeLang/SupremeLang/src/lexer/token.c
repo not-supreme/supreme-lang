@@ -127,7 +127,14 @@ bool token_type_is_literal( e_token_type token_type )
 {
 	return token_type == TOKEN_NUMBER
 		|| token_type == TOKEN_INTEGER
-		|| token_type == TOKEN_STRING;
+		|| token_type == TOKEN_STRING
+		|| token_type == TOKEN_KEYWORD_TRUE
+		|| token_type == TOKEN_KEYWORD_FALSE;
+}
+
+bool token_get_boolean( token_t *token )
+{
+	return token->token_type == TOKEN_KEYWORD_TRUE;
 }
 
 int64_t token_get_integer( token_t *token )
