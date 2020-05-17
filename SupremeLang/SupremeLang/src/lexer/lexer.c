@@ -110,7 +110,25 @@ token_t lexer_simple_token( lexer_t *lexer, e_token_type token_type )
 
 token_t lexer_assign_operator( lexer_t *lexer, e_token_type if_true, e_token_type if_false )
 {
-	return lexer_simple_token( lexer, lexer_match_next( lexer, '=' ) ? if_true : if_false );
+	if ( lexer_match_next( lexer, '=' ) )
+	{
+		token_t token =
+		{
+			.token_type = if_true,
+			.line_number = lexer->line_number,
+			.column_number = lexer->column_number,
+			.span_start = lexer->start,
+			.span_end = lexer->iterator,
+		};
+
+		lexer_consume( lexer );
+
+		return token;
+	}
+	else
+	{
+		return lexer_simple_token( lexer, if_false );
+	}
 }
 
 token_t lexer_handle_comment( lexer_t *lexer )
