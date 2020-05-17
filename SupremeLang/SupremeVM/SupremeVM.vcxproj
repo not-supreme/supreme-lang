@@ -138,6 +138,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\cpu.c" />
+    <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\svm.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\cpu.h" />
+    <ClInclude Include="inc\instr.h" />
+    <ClInclude Include="inc\shared.h" />
+    <ClInclude Include="inc\svm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

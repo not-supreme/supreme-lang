@@ -1,4 +1,5 @@
 #include "../inc/shared.h"
+#include "../inc/cpu.h"
 #include "../inc/svm.h"
 
 int svm_run_from_file( char *file_path )
@@ -38,8 +39,36 @@ int svm_run_from_file( char *file_path )
 
 bool svm_init_cpu( svm_cpu_t *cpu, void *file )
 {
-    svm_executable_t *executable = file;
+    svm_executable_t *exe = file;
 
+    if ( exe->magic != 'EmvS' )
+    {
+        printf( "Corrupted file!\n" );
+        return false;
+    }
+
+    uintptr_t base = ( uintptr_t )exe;
+    uint8_t *instr_ptr = ( uint8_t * )( base + exe->entry_rva );
+    size_t instr_size = 0;
+
+    while ( 1 )
+    {
+        const cpu_result_t result = cpu_exec_instr( &instr_ptr, &instr_size );
+
+        if ( result == CPU_ADVANCE )
+        {
+            instr_ptr += instr_size;
+
+            continue;
+        }
+
+        if ( result == CPU_EXIT )
+        {
+            printf( "Program finished execution!\n" );
+
+            break;
+        }
+    }
 
     return true;
 }
