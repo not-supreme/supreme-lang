@@ -160,7 +160,7 @@ token_t lexer_handle_identifier( lexer_t *lexer )
 	{
 		char ch = lexer_peek( lexer );
 
-		if ( !is_alphanumeric( ch ) )
+		if ( !is_alphanumeric( ch ) && ch != '_' )
 			break;
 
 		lexer_consume( lexer );
