@@ -151,8 +151,6 @@ ast_node_t *parser_parse_call_expression( parser_t *parser )
         node->as.call_expr.arguments_capacity = 0;
         node->as.call_expr.arguments = NULL;
 
-        parser_consume( parser );
-
         return node;
     }
 
@@ -192,8 +190,6 @@ ast_node_t *parser_parse_primary_expression( parser_t *parser )
             return NULL;
 
         node->as.group_expression = expression_node;
-
-        parser_consume( parser );
 
         return node;
     }

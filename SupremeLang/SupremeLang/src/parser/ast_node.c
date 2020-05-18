@@ -116,6 +116,16 @@ void ast_node_print_internal( ast_node_t *node, bool print_nl )
 	}
 	else if ( node->node_type == AST_NODE_FUNCTION_DECLARATION )
 	{
+		token_t *identifier_token = node->as.function_def.identifier;
+
+		char span_end_ch = identifier_token->span_end[ 0 ];
+
+		identifier_token->span_end[ 0 ] = '\x00';
+
+		printf( print_nl ? "fn %s( /* %d arguments */ ) { } \n" : "fn %s( /* %d arguments */ ) { }",
+			identifier_token->span_start, node->as.function_def.argument_arity );
+
+		identifier_token->span_end[ 0 ] = span_end_ch;
 	}
 }
 
