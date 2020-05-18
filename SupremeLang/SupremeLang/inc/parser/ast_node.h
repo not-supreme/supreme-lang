@@ -48,7 +48,7 @@ typedef struct _ast_node_t
 			token_t *return_type;
 
 			int argument_arity;
-		} funtion_def;
+		} function_def;
 	} as;
 } ast_node_t;
 

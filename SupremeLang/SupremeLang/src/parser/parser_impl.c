@@ -138,8 +138,11 @@ ast_node_t *parser_parse_call_expression( parser_t *parser )
     if ( parser_matches( parser, TOKEN_OPENING_PAREN ) )
     {
         //  todo: do the actual argument parsing :)
-        while ( !parser_matches( parser, TOKEN_CLOSING_PAREN ) )
+        while ( !parser_is_eof( parser ) && !parser_matches( parser, TOKEN_CLOSING_PAREN ) )
             parser_consume( parser );
+
+        if ( !parser_ensure( parser, TOKEN_CLOSING_PAREN, "expected closing parenthesis" ) )
+            return NULL;
 
         ast_node_t *node = ast_node_new( AST_NODE_CALL_EXPRESSION );
 
@@ -185,7 +188,7 @@ ast_node_t *parser_parse_primary_expression( parser_t *parser )
         ast_node_t *node = ast_node_new( AST_NODE_GROUP_EXPRESSION );
         ast_node_t *expression_node = parser_parse_expression( parser );
 
-        if ( !parser_ensure( parser, TOKEN_CLOSING_PAREN, "expected closing parenthesis after expression" ) )
+        if ( !parser_ensure( parser, TOKEN_CLOSING_PAREN, "expected closing parenthesis" ) )
             return NULL;
 
         node->as.group_expression = expression_node;
@@ -212,7 +215,7 @@ ast_node_t *parser_parse_statement( parser_t *parser )
     {
         ast_node_t *expression = parser_parse_expression( parser );
 
-        if ( !parser_ensure( parser, TOKEN_SEMICOLON, "expected semicolon after statement" ) )
+        if ( !parser_ensure( parser, TOKEN_SEMICOLON, "expected semicolon" ) )
             return NULL;
 
         ast_node_t *statement = ast_node_new( AST_NODE_EXPRESSION_STATEMENT );
@@ -235,7 +238,7 @@ ast_node_t *parser_parse_variable_declaration( parser_t *parser )
     if ( ( name_identifier = parser_ensure( parser, TOKEN_IDENTIFIER, "expected variable name" ) ) == NULL )
         return NULL;
 
-    if ( !parser_ensure( parser, TOKEN_COLON, "expected colon after variable name" ) )
+    if ( !parser_ensure( parser, TOKEN_COLON, "expected colon" ) )
         return NULL;
 
     if ( ( type_identifier = parser_ensure( parser, TOKEN_IDENTIFIER, "expected variable type" ) ) == NULL )
@@ -249,7 +252,7 @@ ast_node_t *parser_parse_variable_declaration( parser_t *parser )
             return NULL;
     }
     
-    if ( !parser_ensure( parser, TOKEN_SEMICOLON, "expected semicolon after variable declaration" ) )
+    if ( !parser_ensure( parser, TOKEN_SEMICOLON, "expected semicolon" ) )
     {
         if ( initial_value != NULL )
             free( initial_value );
@@ -270,12 +273,36 @@ ast_node_t *parser_parse_function_declaration( parser_t *parser )
 {
     parser_consume( parser );
 
-    if ( !parser_matches( parser, TOKEN_IDENTIFIER ) )
-    {
-        parser_error( parser, "expected function name" );
+    token_t *name_identifier = NULL;
 
+    if ( ( name_identifier = parser_ensure( parser, TOKEN_IDENTIFIER, "expected function name" ) ) == NULL )
         return NULL;
-    }
 
-    return NULL;
+    if ( !parser_ensure( parser, TOKEN_OPENING_PAREN, "expected argument list" ) )
+        return NULL;
+
+    //  todo: do the actual argument list parsing
+    while ( !parser_is_eof( parser ) && !parser_matches( parser, TOKEN_CLOSING_PAREN ) )
+        parser_consume( parser );
+
+    if ( !parser_ensure( parser, TOKEN_CLOSING_PAREN, "expected closing parenthesis" ) )
+        return NULL;
+
+    if ( !parser_ensure( parser, TOKEN_OPENING_BRACKET, "expected opening bracket" ) )
+        return NULL;
+
+    //  todo: do the actual body parsing
+    while ( !parser_is_eof( parser ) && !parser_matches( parser, TOKEN_CLOSING_BRACKET ) )
+        parser_consume( parser );
+
+    if ( !parser_ensure( parser, TOKEN_CLOSING_BRACKET, "expected closing bracket" ) )
+        return NULL;
+
+    ast_node_t *function_def = ast_node_new( AST_NODE_FUNCTION_DECLARATION );
+
+    function_def->as.function_def.identifier = name_identifier;
+    function_def->as.function_def.return_type = NULL;
+    function_def->as.function_def.argument_arity = 0;
+
+    return function_def;
 }
