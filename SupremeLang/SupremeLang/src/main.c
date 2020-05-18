@@ -42,9 +42,9 @@ void run_script( char *script )
 
 	parser_generate_ast( &parser );
 
-	for ( int i = 0; i < parser.ast_length; i++ )
+	for ( int i = 0; i < parser.nodes_block.length; i++ )
 	{
-		ast_node_t *node = &parser.nodes[ i ];
+		ast_node_t *node = &parser.nodes_block.nodes[ i ];
 
 		ast_node_print( node );
 	}

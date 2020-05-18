@@ -2,6 +2,7 @@
 #define SUPREMELANG_AST_NODE_H
 
 #include "../lexer/token.h"
+#include "ast_block.h"
 #include "ast_node_type.h"
 
 typedef struct _ast_node_t
@@ -35,6 +36,29 @@ typedef struct _ast_node_t
 		} call_expr;
 
 		struct _ast_node_t *expression_stmt;
+		struct _switch_stmt_t
+		{
+			struct _ast_node_t *expression;
+		} switch_stmt; //	todo: finish
+		struct _for_stmt_t
+		{
+			ast_block_t loop_body;
+		} for_stmt; //	todo: finish
+		struct _while_stmt_t
+		{
+			struct _ast_node_t *expression;
+
+			ast_block_t loop_body;
+		} while_stmt;
+		struct _if_stmt_t
+		{
+			struct _ast_node_t *expression;
+			
+			ast_block_t true_branch_body;
+			ast_block_t false_branch_body;
+
+			bool has_else;
+		} if_stmt;
 		struct _variable_def_stmt_t
 		{
 			token_t *identifier;

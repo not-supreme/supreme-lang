@@ -89,6 +89,28 @@ void ast_node_print_internal( ast_node_t *node, bool print_nl )
 	{
 		ast_node_print_internal( node->as.expression_stmt, print_nl );
 	}
+	else if ( node->node_type == AST_NODE_SWITCH_STATEMENT )
+	{
+		printf( "switch ( " );
+
+		ast_node_print_internal( node->as.switch_stmt.expression, false );
+
+		printf( print_nl ? " ) { } \n" : " ) { }" );
+	}
+	else if ( node->node_type == AST_NODE_FOR_STATEMENT )
+	{
+	}
+	else if ( node->node_type == AST_NODE_WHILE_STATEMENT )
+	{
+		printf( "while ( " );
+
+		ast_node_print_internal( node->as.while_stmt.expression, false );
+
+		printf( print_nl ? " ) { } \n" : " ) { }" );
+	}
+	else if ( node->node_type == AST_NODE_IF_STATEMENT )
+	{
+	}
 	else if ( node->node_type == AST_NODE_VARIABLE_DECLARATION )
 	{
 		token_t *identifier_token = node->as.variable_def.identifier;

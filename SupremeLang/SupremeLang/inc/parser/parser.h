@@ -9,17 +9,14 @@ typedef struct _parser_t
 {
 	parser_error_t error;
 
-	int tokens_length;
-	int tokens_capacity;
-
-	int ast_length;
-	int ast_capacity;
+	int length;
+	int capacity;
 
 	token_t *tokens;
 	token_t *current_token;
 	token_t *previous_token;
 
-	ast_node_t *nodes;
+	ast_block_t nodes_block;
 } parser_t;
 
 void parser_init( parser_t *parser );
@@ -42,6 +39,10 @@ ast_node_t *parser_parse_call_expression( parser_t *parser );
 ast_node_t *parser_parse_primary_expression( parser_t *parser );
 
 ast_node_t *parser_parse_statement( parser_t *parser );
+ast_node_t *parser_parse_switch_statement( parser_t *parser );
+ast_node_t *parser_parse_for_statement( parser_t *parser );
+ast_node_t *parser_parse_while_statement( parser_t *parser );
+ast_node_t *parser_parse_if_statement( parser_t *parser );
 ast_node_t *parser_parse_variable_declaration( parser_t *parser );
 ast_node_t *parser_parse_function_declaration( parser_t *parser );
 

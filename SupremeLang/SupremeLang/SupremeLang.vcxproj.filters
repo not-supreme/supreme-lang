@@ -36,6 +36,9 @@
     <ClCompile Include="src\parser\parser_impl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\parser\ast_block.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\string.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\parser\parser_error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\parser\ast_block.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
