@@ -29,17 +29,17 @@ int svm_run_from_file( char *file_path )
     fread( buf, 1, len, fp );
     fclose( fp );
 
-    svm_cpu_t cpu;
-    if ( !svm_init_cpu( &cpu, buf ) )
+    svm_state_t vm_state;
+    if ( !svm_init_cpu( &vm_state, buf ) )
         return 1;
 
     free( buf );
     return 0;
 }
 
-bool svm_init_cpu( svm_cpu_t *cpu, void *file )
+bool svm_init_cpu( svm_state_t *vm_state, void *file )
 {
-    svm_executable_t *exe = file;
+    svm_executable_hdr_t *exe = file;
 
     if ( exe->magic != 'EmvS' )
     {
@@ -53,7 +53,7 @@ bool svm_init_cpu( svm_cpu_t *cpu, void *file )
 
     while ( 1 )
     {
-        const cpu_result_t result = cpu_exec_instr( &instr_ptr, &instr_size );
+        const cpu_result_t result = cpu_exec_instr( vm_state, &instr_ptr, &instr_size );
 
         if ( result == CPU_ADVANCE )
         {
