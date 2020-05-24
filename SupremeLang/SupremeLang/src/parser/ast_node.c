@@ -9,6 +9,9 @@ ast_node_t *ast_node_new( e_ast_node_type node_type )
 {
 	ast_node_t *node = malloc( sizeof( ast_node_t ) );
 
+	if ( !node )
+		return NULL;
+
 	node->node_type = node_type;
 
 	return node;

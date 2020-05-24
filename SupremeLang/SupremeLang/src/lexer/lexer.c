@@ -232,7 +232,8 @@ token_t lexer_handle_string( lexer_t *lexer )
 
 		if ( ch == '"' )
 		{
-			//	skip the closing "
+			// skip the closing "
+
 			lexer_consume( lexer );
 
 			string_terminated = true;

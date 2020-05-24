@@ -33,11 +33,11 @@ void parser_adjust_tokens_capacity( parser_t *parser )
 {
 	if ( ( int64_t )parser->length + 1 > ( ( int64_t )parser->capacity + 1 ) * PARSER_MAX_LOAD )
 	{
-		int capacity = GROW_CAPACITY( parser->capacity + 1 ) - 1;
+		int32_t capacity = GROW_CAPACITY( parser->capacity + 1 ) - 1;
 
 		token_t *new_tokens = realloc( parser->tokens, sizeof( token_t ) * capacity );
 
-		//	fixme: dont exit silently, report an error instead!
+		// fixme: dont exit silently, report an error instead!
 		if ( new_tokens == NULL )
 			exit( 1 );
 
@@ -95,7 +95,7 @@ void parser_generate_ast( parser_t *parser )
 	{
 		parser->error.has_error = false;
 
-		//	skip lonely semicolons
+		// skip lonely semicolons
 		if ( parser->current_token->token_type == TOKEN_SEMICOLON )
 		{
 			parser_consume( parser );
@@ -118,7 +118,7 @@ void parser_generate_ast( parser_t *parser )
 			while ( !parser_is_eof( parser ) && !parser_matches( parser, TOKEN_SEMICOLON ) )
 				parser_consume( parser );
 
-			//	consume the semicolon
+			// consume the semicolon
 			if ( !parser_is_eof( parser ) )
 				parser_consume( parser );
 		}

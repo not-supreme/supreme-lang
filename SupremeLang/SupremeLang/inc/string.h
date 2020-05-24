@@ -13,8 +13,8 @@ typedef struct _intern_entry_t
 typedef struct _string_interner_t
 {
 	bool initialized;
-	int length;
-	int capacity;
+	int32_t length;
+	int32_t capacity;
 	intern_entry_t *entries;
 } string_interner_t;
 

@@ -39,11 +39,13 @@ typedef struct _ast_node_t
 		struct _switch_stmt_t
 		{
 			struct _ast_node_t *expression;
-		} switch_stmt; //	todo: finish
+		} switch_stmt; // todo: finish
+
 		struct _for_stmt_t
 		{
 			ast_block_t loop_body;
-		} for_stmt; //	todo: finish
+		} for_stmt; // todo: finish
+
 		struct _while_stmt_t
 		{
 			struct _ast_node_t *expression;
@@ -71,7 +73,7 @@ typedef struct _ast_node_t
 			token_t *identifier;
 			token_t *return_type;
 
-			int argument_arity;
+			int32_t argument_arity;
 		} function_def;
 	} as;
 } ast_node_t;

@@ -10,8 +10,8 @@ typedef struct _lexer_t
 {
 	lexer_error_t current_error;
 
-	int line_number;
-	int column_number;
+	int32_t line_number;
+	int32_t column_number;
 
 	char *iterator;
 	char *start;

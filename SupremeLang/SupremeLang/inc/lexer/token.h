@@ -6,7 +6,8 @@
 
 typedef enum _e_token_type
 {
-	//	in-place operators
+	// in-place operators
+
 	TOKEN_OPERATOR_NOT,
 	TOKEN_OPERATOR_ADD,
 	TOKEN_OPERATOR_SUB,
@@ -21,14 +22,16 @@ typedef enum _e_token_type
 	TOKEN_OPERATOR_NOT_EQUAL,
 	TOKEN_OPERATOR_ASSIGN,
 	
-	//	assignment operators
+	// assignment operators
+
 	TOKEN_OPERATOR_ADD_ASSIGN,
 	TOKEN_OPERATOR_SUB_ASSIGN,
 	TOKEN_OPERATOR_DIV_ASSIGN,
 	TOKEN_OPERATOR_MUL_ASSIGN,
 	TOKEN_OPERATOR_REM_ASSIGN,
 
-	//	single character tokens
+	// single character tokens
+
 	TOKEN_OPENING_PAREN,
 	TOKEN_CLOSING_PAREN,
 	TOKEN_OPENING_BRACKET,
@@ -36,7 +39,8 @@ typedef enum _e_token_type
 	TOKEN_OPENING_SQUARE_BRACKET,
 	TOKEN_CLOSING_SQUARE_BRACKET,
 
-	//	keywords
+	// keywords
+
 	TOKEN_KEYWORD_IMPORT,
 	TOKEN_KEYWORD_FN,
 	TOKEN_KEYWORD_VAR,
@@ -50,7 +54,8 @@ typedef enum _e_token_type
 	TOKEN_KEYWORD_BREAK,
 	TOKEN_KEYWORD_RETURN,
 
-	//	misc
+	// misc
+
 	TOKEN_INTEGER,
 	TOKEN_NUMBER,
 	TOKEN_STRING,
@@ -74,8 +79,8 @@ typedef struct _token_t
 {
 	e_token_type token_type;
 
-	int line_number;
-	int column_number;
+	int32_t line_number;
+	int32_t column_number;
 
 	char *span_start;
 	char *span_end;

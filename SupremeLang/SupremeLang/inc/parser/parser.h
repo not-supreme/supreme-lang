@@ -9,8 +9,8 @@ typedef struct _parser_t
 {
 	parser_error_t error;
 
-	int length;
-	int capacity;
+	int32_t length;
+	int32_t capacity;
 
 	token_t *tokens;
 	token_t *current_token;

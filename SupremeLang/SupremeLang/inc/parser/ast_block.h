@@ -3,8 +3,8 @@
 
 typedef struct _ast_block_t
 {
-	int length;
-	int capacity;
+	int32_t length;
+	int32_t capacity;
 
 	struct _ast_node_t *nodes;
 } ast_block_t;

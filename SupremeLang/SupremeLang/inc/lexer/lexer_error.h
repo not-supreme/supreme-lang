@@ -7,8 +7,8 @@ typedef struct _lexer_error_t
 {
 	bool has_error;
 
-	int line_number;
-	int column_number;
+	int32_t line_number;
+	int32_t column_number;
 
 	const char *span_start;
 	const char *span_end;

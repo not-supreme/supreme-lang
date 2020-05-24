@@ -7,8 +7,8 @@ typedef struct _parser_error_t
 {
 	bool has_error;
 
-	int line_number;
-	int column_number;
+	int32_t line_number;
+	int32_t column_number;
 
 	const char *description;
 } parser_error_t;

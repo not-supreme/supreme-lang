@@ -12,11 +12,9 @@
 void run_script( char *script )
 {
 	lexer_t lexer;
-
 	parser_t parser;
 
 	lexer_init( &lexer, script );
-
 	parser_init( &parser );
 
 	for ( ;; )
@@ -56,7 +54,7 @@ void run_from_file( const char *file_path )
 {
 	FILE *file = fopen( file_path, "r" );
 
-	//	todo: report error
+	// todo: report error
 	if ( file == NULL )
 		return;
 
@@ -68,7 +66,7 @@ void run_from_file( const char *file_path )
 
 	fseek( file, 0, SEEK_SET );
 
-	//	todo: report error
+	// todo: report error
 	if ( file_buffer == NULL )
 		return;
 

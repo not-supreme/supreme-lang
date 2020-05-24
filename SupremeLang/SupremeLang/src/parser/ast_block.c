@@ -26,11 +26,12 @@ void ast_block_adjust_capacity( ast_block_t *block )
 {
 	if ( ( int64_t )block->length + 1 > ( ( int64_t )block->capacity + 1 ) * PARSER_MAX_LOAD )
 	{
-		int capacity = GROW_CAPACITY( block->capacity + 1 ) - 1;
+		int32_t capacity = GROW_CAPACITY( block->capacity + 1 ) - 1;
 
 		ast_node_t *new_nodes = realloc( block->nodes, sizeof( ast_node_t ) * capacity );
 
-		//	fixme: dont exit silently, report an error instead!
+		// fixme: dont exit silently, report an error instead!
+
 		if ( new_nodes == NULL )
 			exit( 1 );
 

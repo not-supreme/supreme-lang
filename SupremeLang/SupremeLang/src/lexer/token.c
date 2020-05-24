@@ -18,7 +18,8 @@ const char *token_type_to_string( e_token_type token_type )
 {
 	switch ( token_type )
 	{
-		//	in-place operators
+		// in-place operators
+
 		TOKEN_TO_STRING( OPERATOR_NOT );
 		TOKEN_TO_STRING( OPERATOR_ADD );
 		TOKEN_TO_STRING( OPERATOR_SUB );
@@ -33,14 +34,16 @@ const char *token_type_to_string( e_token_type token_type )
 		TOKEN_TO_STRING( OPERATOR_NOT_EQUAL );
 		TOKEN_TO_STRING( OPERATOR_ASSIGN );
 
-		//	assignment operators
+		// assignment operators
+
 		TOKEN_TO_STRING( OPERATOR_ADD_ASSIGN );
 		TOKEN_TO_STRING( OPERATOR_SUB_ASSIGN );
 		TOKEN_TO_STRING( OPERATOR_DIV_ASSIGN );
 		TOKEN_TO_STRING( OPERATOR_MUL_ASSIGN );
 		TOKEN_TO_STRING( OPERATOR_REM_ASSIGN );
 
-		//	single character tokens
+		// single character tokens
+
 		TOKEN_TO_STRING( OPENING_PAREN );
 		TOKEN_TO_STRING( CLOSING_PAREN );
 		TOKEN_TO_STRING( OPENING_BRACKET );
@@ -48,7 +51,8 @@ const char *token_type_to_string( e_token_type token_type )
 		TOKEN_TO_STRING( OPENING_SQUARE_BRACKET );
 		TOKEN_TO_STRING( CLOSING_SQUARE_BRACKET );
 
-		//	keywords
+		// keywords
+
 		TOKEN_TO_STRING( KEYWORD_IMPORT );
 		TOKEN_TO_STRING( KEYWORD_FN );
 		TOKEN_TO_STRING( KEYWORD_VAR );
@@ -62,7 +66,8 @@ const char *token_type_to_string( e_token_type token_type )
 		TOKEN_TO_STRING( KEYWORD_BREAK );
 		TOKEN_TO_STRING( KEYWORD_RETURN );
 
-		//	misc
+		// misc
+
 		TOKEN_TO_STRING( SKIP );
 		TOKEN_TO_STRING( EOF );
 		TOKEN_TO_STRING( NUMBER );
@@ -216,7 +221,8 @@ void token_print( token_t *token )
 	}
 }
 
-//	hell :D
+// hell :D
+
 void token_check_keyword( token_t *token )
 {
 	TOKEN_KEYWORD_CHECK( "import", TOKEN_KEYWORD_IMPORT );

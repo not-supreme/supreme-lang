@@ -50,9 +50,9 @@ ast_node_t *parser_parse_comparison_expression( parser_t *parser )
 	ast_node_t *expr = parser_parse_addition_expression( parser );
 
 	while ( parser_matches( parser, TOKEN_OPERATOR_GREATER_THAN )
-		|| parser_matches( parser, TOKEN_OPERATOR_GREATER_THAN_EQUAL )
-		|| parser_matches( parser, TOKEN_OPERATOR_LESS_THAN )
-		|| parser_matches( parser, TOKEN_OPERATOR_LESS_THAN_EQUAL ) )
+		 || parser_matches( parser, TOKEN_OPERATOR_GREATER_THAN_EQUAL )
+		 || parser_matches( parser, TOKEN_OPERATOR_LESS_THAN )
+		 || parser_matches( parser, TOKEN_OPERATOR_LESS_THAN_EQUAL ) )
 	{
 		ast_node_t *node = ast_node_new( AST_NODE_BINARY_EXPRESSION );
 
@@ -74,8 +74,8 @@ ast_node_t *parser_parse_addition_expression( parser_t *parser )
 	ast_node_t *expr = parser_parse_multiplication_expression( parser );
 
 	while ( parser_matches( parser, TOKEN_OPERATOR_ADD )
-		|| parser_matches( parser, TOKEN_OPERATOR_SUB )
-		|| parser_matches( parser, TOKEN_OPERATOR_REM ) )
+		 || parser_matches( parser, TOKEN_OPERATOR_SUB )
+		 || parser_matches( parser, TOKEN_OPERATOR_REM ) )
 	{
 		ast_node_t *node = ast_node_new( AST_NODE_BINARY_EXPRESSION );
 
@@ -137,7 +137,7 @@ ast_node_t *parser_parse_call_expression( parser_t *parser )
 
 	if ( parser_matches( parser, TOKEN_OPENING_PAREN ) )
 	{
-		//  todo: do the actual argument parsing :)
+		// todo: do the actual argument parsing :)
 		while ( !parser_is_eof( parser ) && !parser_matches( parser, TOKEN_CLOSING_PAREN ) )
 			parser_consume( parser );
 
@@ -253,7 +253,7 @@ ast_node_t *parser_parse_switch_statement( parser_t *parser )
 	if ( !parser_ensure( parser, TOKEN_OPENING_BRACKET, "expected opening bracket" ) )
 		return NULL;
 
-	//  todo: do the actual body parsing
+	// todo: do the actual body parsing
 	while ( !parser_is_eof( parser ) && !parser_matches( parser, TOKEN_CLOSING_BRACKET ) )
 		parser_consume( parser );
 
@@ -287,7 +287,7 @@ ast_node_t *parser_parse_while_statement( parser_t *parser )
 	if ( !parser_ensure( parser, TOKEN_OPENING_BRACKET, "expected opening bracket" ) )
 		return NULL;
 
-	//  todo: do the actual body parsing
+	// todo: do the actual body parsing
 	while ( !parser_is_eof( parser ) && !parser_matches( parser, TOKEN_CLOSING_BRACKET ) )
 		parser_consume( parser );
 
@@ -361,7 +361,7 @@ ast_node_t *parser_parse_function_declaration( parser_t *parser )
 	if ( !parser_ensure( parser, TOKEN_OPENING_PAREN, "expected argument list" ) )
 		return NULL;
 
-	//  todo: do the actual argument list parsing
+	// todo: do the actual argument list parsing
 	while ( !parser_is_eof( parser ) && !parser_matches( parser, TOKEN_CLOSING_PAREN ) )
 		parser_consume( parser );
 
@@ -371,7 +371,7 @@ ast_node_t *parser_parse_function_declaration( parser_t *parser )
 	if ( !parser_ensure( parser, TOKEN_OPENING_BRACKET, "expected opening bracket" ) )
 		return NULL;
 
-	//  todo: do the actual body parsing
+	// todo: do the actual body parsing
 	while ( !parser_is_eof( parser ) && !parser_matches( parser, TOKEN_CLOSING_BRACKET ) )
 		parser_consume( parser );
 

@@ -9,9 +9,12 @@
 #define FNV1A_BASIS 0xCBF29CE484222325
 #define FNV1A_PRIME 0x100000001B3
 
-//	no need for it to be globally defined
-//	will only be used by those 2 functions
-//	that are implemnted at the bottom
+// no need for it to be globally defined
+
+// will only be used by those 2 functions
+
+// that are implemnted at the bottom
+
 string_interner_t string_interner;
 
 void string_interner_init( string_interner_t *interner )
@@ -30,7 +33,8 @@ void string_interner_adjust_capacity( string_interner_t *interner )
 
 		intern_entry_t *new_entries = realloc( interner->entries, sizeof( intern_entry_t ) * capacity );
 
-		//	fixme: dont exit silently, report an error instead!
+		// fixme: dont exit silently, report an error instead!
+
 		if ( new_entries == NULL )
 			exit( 1 );
 
@@ -66,7 +70,8 @@ intern_entry_t *string_interner_add_string( string_interner_t *interner, uint64_
 
 bool check_substring_equality( const char *substring_start, const char *substring_end, const char *check_against )
 {
-	//	really bad
+	// really bad
+
 	int substring_length = ( int )( ( intptr_t )substring_end - ( intptr_t )substring_start );
 	int check_against_length = ( int )strlen( check_against );
 
@@ -101,6 +106,9 @@ intern_entry_t *intern_string( const char *string )
 {
 	char *buffer = malloc( strlen( string ) );
 
+	if ( !buffer )
+		return NULL;
+
 	memset( buffer, NULL, strlen( string ) + 1 );
 	memcpy( buffer, string, strlen( string ) );
 
@@ -118,8 +126,11 @@ intern_entry_t *intern_string( const char *string )
 
 intern_entry_t *intern_substring( const char *substring_start, const char *substring_end )
 {
-	int substring_length = ( int )( ( intptr_t )substring_end - ( intptr_t )substring_start );
-	char *buffer = malloc( substring_length );
+	size_t substring_length = ( ( intptr_t )substring_end - ( intptr_t )substring_start );
+	char *buffer = malloc( substring_length + 1 );
+
+	if ( !buffer )
+		return NULL;
 
 	memset( buffer, NULL, ( size_t )substring_length + 1 );
 	memcpy( buffer, substring_start, substring_length );
