@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "../../inc/lexer/lexer.h"
 
@@ -49,7 +50,7 @@ char lexer_peek( lexer_t *lexer )
 	return *lexer->iterator;
 }
 
-char lexer_peek_offset( lexer_t *lexer, int offset )
+char lexer_peek_offset( lexer_t *lexer, int32_t offset )
 {
 	return lexer->iterator[ offset ];
 }

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\codegen\codegen.c" />
     <ClCompile Include="src\lexer\lexer.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\parser\ast_block.c" />
@@ -29,6 +30,7 @@
     <ClCompile Include="src\lexer\token.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\codegen\codegen.h" />
     <ClInclude Include="inc\lexer\lexer.h" />
     <ClInclude Include="inc\lexer\lexer_error.h" />
     <ClInclude Include="inc\parser\ast_block.h" />

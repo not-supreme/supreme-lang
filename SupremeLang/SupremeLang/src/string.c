@@ -1,6 +1,4 @@
-#include <stdlib.h>
-#include <string.h>
-
+#include "../inc/shared.h"
 #include "../inc/string.h"
 
 #define INTERNER_MAX_LOAD 0.75
@@ -29,7 +27,7 @@ void string_interner_adjust_capacity( string_interner_t *interner )
 {
 	if ( ( int64_t )interner->length + 1 > ( ( int64_t )interner->capacity + 1 ) * INTERNER_MAX_LOAD )
 	{
-		int capacity = GROW_CAPACITY( interner->capacity + 1 ) - 1;
+		int32_t capacity = GROW_CAPACITY( interner->capacity + 1 ) - 1;
 
 		intern_entry_t *new_entries = realloc( interner->entries, sizeof( intern_entry_t ) * capacity );
 
@@ -45,7 +43,7 @@ void string_interner_adjust_capacity( string_interner_t *interner )
 
 intern_entry_t *string_interner_find_string( string_interner_t *interner, uint64_t string_hash )
 {
-	for ( int i = 0; i < interner->length; i++ )
+	for ( int32_t i = 0; i < interner->length; i++ )
 	{
 		intern_entry_t *entry = &interner->entries[ i ];
 
@@ -72,13 +70,13 @@ bool check_substring_equality( const char *substring_start, const char *substrin
 {
 	// really bad
 
-	int substring_length = ( int )( ( intptr_t )substring_end - ( intptr_t )substring_start );
-	int check_against_length = ( int )strlen( check_against );
+	int32_t substring_length = ( ( intptr_t )substring_end - ( intptr_t )substring_start );
+	int32_t check_against_length = strlen( check_against );
 
 	if ( substring_length != check_against_length )
 		return false;
 
-	for ( int i = 0; i < check_against_length; i++ )
+	for ( int32_t i = 0; i < check_against_length; i++ )
 	{
 		if ( substring_start[ i ] != check_against[ i ] )
 			return false;
@@ -87,7 +85,7 @@ bool check_substring_equality( const char *substring_start, const char *substrin
 	return true;
 }
 
-uint64_t hash_string( const char *string, int length )
+uint64_t hash_string( const char *string, int32_t length )
 {
 	const char *pointer = string;
 
