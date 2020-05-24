@@ -4,6 +4,7 @@
 
 int main( int argc, char **argv )
 {
+	/*
 	if ( argc < 2 )
 	{
 		printf( "Invalid usage!\n" );
@@ -12,4 +13,6 @@ int main( int argc, char **argv )
 	}
 
 	return svm_run_from_file( argv[ 1 ] );
+	*/
+	return svm_run_test( );
 }

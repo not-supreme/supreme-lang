@@ -38,6 +38,7 @@
     <ClInclude Include="inc\parser\ast_node_type.h" />
     <ClInclude Include="inc\parser\parser.h" />
     <ClInclude Include="inc\parser\parser_error.h" />
+    <ClInclude Include="inc\shared.h" />
     <ClInclude Include="inc\string.h" />
     <ClInclude Include="inc\lexer\token.h" />
   </ItemGroup>

@@ -23,12 +23,12 @@ cpu_result_t cpu_exec_instr( svm_state_t *vm_state, uint8_t **instr, size_t *out
 
 	switch ( operation )
 	{
+	case SVM_OPCODE_HLT:
+		SVM_DEBUGLOG( "HLT" );
+		return CPU_EXIT;
 	case SVM_OPCODE_NOP:
 		SVM_DEBUGLOG( "NOP" );
 		return CPU_ADVANCE;
-	case SVM_OPCODE_BREAK:
-		SVM_DEBUGLOG( "BREAK" );
-		return CPU_EXIT;
 	case SVM_OPCODE_JMP:
 	{
 		SVM_DEBUGLOG( "JMP" );
@@ -55,7 +55,7 @@ cpu_result_t cpu_exec_instr( svm_state_t *vm_state, uint8_t **instr, size_t *out
 			{
 				SVM_DEBUGLOG( "Relative addressing is used!" );
 
-				uint32_t *disp = *instr + sizeof( svm_opcode_t ) + sizeof( svm_opcode_ext_info_t );
+				uint32_t *disp = ( uint32_t * )( *instr + sizeof( svm_opcode_t ) + sizeof( svm_opcode_ext_info_t ) );
 				new_ip = *instr + *disp;
 				*instr = new_ip;
 			}

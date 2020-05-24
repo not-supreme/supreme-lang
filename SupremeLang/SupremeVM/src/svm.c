@@ -1,6 +1,50 @@
 #include "../inc/shared.h"
 #include "../inc/cpu.h"
+#include "../inc/instr.h"
 #include "../inc/svm.h"
+
+int svm_run_test( )
+{
+    void *buf = malloc( sizeof( svm_executable_hdr_t ) + 0x1000 );
+
+    SVM_ASSERT( buf != NULL );
+
+    svm_executable_hdr_t *exe_hdr = ( svm_executable_hdr_t * )buf;
+    svm_section_hdr_t *sec_hdr = ( svm_section_hdr_t * )&exe_hdr->section_code;
+    uint8_t *code_section = ( uint8_t * )( ( uintptr_t )buf + sizeof( svm_executable_hdr_t ) );
+
+    memset( exe_hdr, 0, sizeof( svm_executable_hdr_t ) );
+    memset( sec_hdr, 0, sizeof( svm_section_hdr_t ) );
+    memset( code_section, 0, 0x1000 );
+
+    sec_hdr->sec_rva = sizeof( svm_executable_hdr_t );
+    sec_hdr->sec_size = 0x1000;
+
+    exe_hdr->magic = 'EmvS';
+    exe_hdr->version = 1;
+    exe_hdr->entry_rva = 0;
+
+    uint8_t assembled_code[ ] =
+    {
+        SVM_OPCODE_NOP,
+        SVM_OPCODE_NOP,
+        SVM_OPCODE_NOP,
+        SVM_OPCODE_NOP,
+        SVM_OPCODE_HLT
+    };
+
+    memcpy( code_section, &assembled_code[ 0 ], sizeof( assembled_code ) );
+
+    svm_state_t vm_state;
+    if ( !svm_init_cpu( &vm_state, buf ) )
+    {
+        free( buf );
+        return 1;
+    }
+
+    free( buf );
+    return 0;
+}
 
 int svm_run_from_file( char *file_path )
 {
@@ -53,7 +97,7 @@ bool svm_init_cpu( svm_state_t *vm_state, void *file )
     }
 
     uintptr_t base = ( uintptr_t )exe;
-    uint8_t *instr_ptr = ( uint8_t * )( base + exe->entry_rva );
+    uint8_t *instr_ptr = ( uint8_t * )( base + exe->section_code.sec_rva + exe->entry_rva );
     size_t instr_size = 0;
 
     while ( 1 )

@@ -40,10 +40,10 @@ typedef union _svm_opcode_ext_info_t
 
 typedef enum _svm_e_opcode_t
 {
+	/* Stop execution. Whether or not execution continues is up to the host (VM). */
+	SVM_OPCODE_HLT,
 	/* No operation. Advance to next instruction. */
 	SVM_OPCODE_NOP,
-	/* Stop execution. Whether or not execution continues is up to the host (VM). */
-	SVM_OPCODE_BREAK,
 	/* Jump to certain instruction. */
 	SVM_OPCODE_JMP,
 	/* Move operation. */
