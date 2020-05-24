@@ -24,7 +24,35 @@ int svm_run_test( )
     exe_hdr->version = 1;
     exe_hdr->entry_rva = 0;
 
-    uint8_t assembled_code[ ] =
+    uint8_t assembled_code0[ ] =
+    {
+        SVM_OPCODE_NOP,
+        SVM_OPCODE_NOP,
+        SVM_OPCODE_NOP,
+        SVM_OPCODE_NOP,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    };
+
+    svm_opcode_t *jmp_opcode = ( svm_opcode_t * )&assembled_code0[ 4 ];
+    jmp_opcode->operation = SVM_OPCODE_JMP;
+    jmp_opcode->has_extended_opcode = 0;
+    jmp_opcode->has_extended_info = 1;
+
+    svm_opcode_ext_info_t *jmp_xinfo = ( svm_opcode_ext_info_t * )&assembled_code0[ 5 ];
+    jmp_xinfo->operand_count = 1;
+    jmp_xinfo->operand_mode = 0b0001;
+    jmp_xinfo->absolute_addressing = 0;
+
+    int32_t *disp32 = &assembled_code0[ 7 ];
+    *disp32 = 508; // 512 - the four bytes already executed
+
+    uint8_t assembled_code1[ ] =
     {
         SVM_OPCODE_NOP,
         SVM_OPCODE_NOP,
@@ -33,7 +61,8 @@ int svm_run_test( )
         SVM_OPCODE_HLT
     };
 
-    memcpy( code_section, &assembled_code[ 0 ], sizeof( assembled_code ) );
+    memcpy( code_section, &assembled_code0[ 0 ], sizeof( assembled_code0 ) );
+    memcpy( code_section + 512, &assembled_code1[ 0 ], sizeof( assembled_code1 ) );
 
     svm_state_t vm_state;
     if ( !svm_init_cpu( &vm_state, buf ) )

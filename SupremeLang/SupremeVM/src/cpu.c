@@ -1,5 +1,6 @@
 #include "../inc/shared.h"
 #include "../inc/instr.h"
+#include "../inc/svm.h"
 #include "../inc/cpu.h"
 
 cpu_result_t cpu_exec_instr( svm_state_t *vm_state, uint8_t **instr, size_t *out_size )
@@ -36,7 +37,7 @@ cpu_result_t cpu_exec_instr( svm_state_t *vm_state, uint8_t **instr, size_t *out
 		SVM_ASSERT( opcode->has_extended_info );
 		SVM_ASSERT( !opcode->has_extended_opcode );
 
-		svm_opcode_ext_info_t *ext_info = ( svm_opcode_ext_info_t * )opcode + 1;
+		svm_opcode_ext_info_t *ext_info = ( svm_opcode_ext_info_t * )( opcode + 1 );
 		SVM_ASSERT( ext_info->operand_count == 1 );
 
 		uint8_t *new_ip = NULL;
@@ -50,21 +51,29 @@ cpu_result_t cpu_exec_instr( svm_state_t *vm_state, uint8_t **instr, size_t *out
 				SVM_DEBUGLOG( "Absolute addressing is used!" );
 
 				new_ip = *instr + sizeof( svm_opcode_t ) + sizeof( svm_opcode_ext_info_t );
-				*instr = new_ip;
 			} else
 			{
 				SVM_DEBUGLOG( "Relative addressing is used!" );
 
 				uint32_t *disp = ( uint32_t * )( *instr + sizeof( svm_opcode_t ) + sizeof( svm_opcode_ext_info_t ) );
 				new_ip = *instr + *disp;
-				*instr = new_ip;
 			}
 		} else
 		{
-			SVM_DEBUGLOG( "WIP!" );
+			SVM_DEBUGLOG( "Operand is a dereferencing a register!" );
+
+			uint8_t *register_id = ( uint8_t * )( *instr + sizeof( svm_opcode_t ) + sizeof( svm_opcode_ext_info_t ) );
+			SVM_ASSERT( *register_id < 16 );
+			uint64_t code_rva = vm_state->registers[ *register_id ];
+			new_ip = ( ( uintptr_t )vm_state->executable_header ) + vm_state->executable_header->section_code.sec_rva + code_rva;
 		}
 
 		SVM_DEBUGLOG( "new_ip=%p", new_ip );
+		*instr = new_ip;
 	} return CPU_DONT_ADVANCE;
+	case SVM_NATIVE_FASTCALL:
+	{
+		SVM_DEBUGLOG( "NATIVE_FASTCALL" );
+	} return CPU_ADVANCE;
 	}
 }

@@ -47,7 +47,9 @@ typedef enum _svm_e_opcode_t
 	/* Jump to certain instruction. */
 	SVM_OPCODE_JMP,
 	/* Move operation. */
-	SVM_OPCODE_MOV
+	SVM_OPCODE_MOV,
+	/* Call native function. */
+	SVM_NATIVE_FASTCALL
 } svm_e_opcode_t;
 
 #endif // _INSTR_H
