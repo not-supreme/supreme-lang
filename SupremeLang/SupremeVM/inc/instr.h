@@ -49,7 +49,7 @@ typedef enum _svm_e_opcode_t
 	/* Move operation. */
 	SVM_OPCODE_MOV,
 	/* Call native function. */
-	SVM_NATIVE_FASTCALL
+	SVM_OPCODE_FASTCALL
 } svm_e_opcode_t;
 
 #endif // _INSTR_H

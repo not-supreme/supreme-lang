@@ -47,7 +47,7 @@ typedef struct _svm_state_t
 		uint64_t rf;
 	};
 
-	svm_executable_hdr_t *executable_header;
+	struct _svm_executable_hdr_t *executable_header;
 } svm_state_t;
 
 /* This is the result of each instruction. */
@@ -71,5 +71,7 @@ cpu_result_t cpu_exec_instr(
 	/* Pointer to variable that recieves size of instruction executed,
 	   required for advancing instruction (if necessary). */
 	size_t *out_size );
+
+extern uint64_t __fastcall __native_fastcall( void *callee, uint64_t arg_count, uint64_t rcx, uint64_t rdx, uint64_t r8, uint64_t r9 );
 
 #endif // _CPU_H

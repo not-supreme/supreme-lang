@@ -24,6 +24,6 @@ typedef struct _svm_executable_hdr_t
 
 int svm_run_test( );
 int svm_run_from_file( char *file_path );
-bool svm_init_cpu( svm_state_t *vm_state, void *file );
+bool svm_init_cpu( struct _svm_state_t *vm_state, void *file );
 
 #endif // _SVM_H
