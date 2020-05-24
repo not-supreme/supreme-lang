@@ -1,4 +1,5 @@
 #include "../inc/shared.h"
+#include "../inc/cpu.h"
 #include "../inc/svm.h"
 
 int main( int argc, char **argv )

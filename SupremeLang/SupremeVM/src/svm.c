@@ -7,8 +7,13 @@ int svm_run_from_file( char *file_path )
     FILE *fp;           // File pointer
     long len;           // File length (in bytes)
     char *buf;          // Pointer to file buffer
+    
+    if ( fopen_s( &fp, file_path, "rb" ) != 0 )
+    {
+        printf( "Failed to open file \"%s\"!\n", file_path );
+        return 1;
+    }
 
-    fp = fopen( file_path, "rb" );
     if ( !fp )
     {
         printf( "Failed to open file \"%s\"!\n", file_path );

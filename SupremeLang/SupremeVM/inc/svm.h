@@ -17,14 +17,12 @@ typedef struct _svm_executable_hdr_t
 	uintptr_t entry_rva;        // rva to entrypoint
 	svm_section_t section_code; // code, executable
 	svm_section_t section_data; // data, non-executable
-	/* This is to make sure that the size of this structure is 4096 (0x1000) aka PAGE_SIZE.
-	   This means that if we have code right after the executable header it will be page aligned. */
-	uint8_t padding[ 0x1000 - sizeof( struct _svm_executable_hdr_t ) ];
+	uint32_t reserved[ 32 ];	// reserved for future usage
 } svm_executable_hdr_t;
 
 #pragma pack(pop)
 
 int svm_run_from_file( char *file_path );
-bool svm_init_cpu( svm_state_t *cpu, void *file );
+bool svm_init_cpu( svm_state_t *vm_state, void *file );
 
 #endif // _SVM_H
