@@ -1,110 +1,85 @@
-#define _CRT_SECURE_NO_WARNINGS
+#include "../inc/shared.h"
+#include "../inc/result.h"
+#include "../inc/token.h"
+#include "../inc/lexer.h"
+#include "../inc/ast.h"
+#include "../inc/codegen.h"
+#include "../inc/parser.h"
 
-#include <memory.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "../inc/lexer/lexer.h"
-#include "../inc/lexer/token.h"
-#include "../inc/parser/parser.h"
-
-void run_script( char *script )
+int main( )
 {
-	lexer_t lexer;
-	parser_t parser;
+	sl_lexer_t lexer;
+	sl_parser_t parser;
 
-	lexer_init( &lexer, script );
-	parser_init( &parser );
+	SL_ASSERT( sl_lexer_init( &lexer ) == SL_RES_OK );
+	SL_ASSERT( sl_parser_init( &parser, &lexer ) == SL_RES_OK );
 
 	for ( ;; )
 	{
-		token_t token = lexer_scan_token( &lexer );
+		char line_buffer[ 1024 ];
 
-		if ( lexer.current_error.has_error )
-		{
-			printf( "error at %d:%d: %s \n", lexer.current_error.line_number,
-				lexer.current_error.column_number, lexer.current_error.description );
+		SL_ASSERT( fwrite( "> ", 1, 2, stdout ) == 2 );
+		SL_ASSERT( fgets( line_buffer, sizeof( line_buffer ), stdin ) != NULL );
 
+		if ( line_buffer[ 0 ] == '\n' )
 			break;
+
+		// Null terminate the line buffer.
+		// That is required by `sl_lexer_digest` method.
+		line_buffer[ strlen( line_buffer ) - 1 ] = '\x00';
+
+		int32_t token_count = 0;
+
+		sl_token_t *tokens = NULL;
+		sl_lexer_error_t lex_error = NULL;
+
+		if ( sl_lexer_digest( &lexer, line_buffer, &tokens, &token_count, &lex_error ) == SL_RES_OK )
+		{
+			SL_ASSERT( tokens != NULL );
+
+			int32_t ast_node_count = 0;
+
+			sl_parser_node_t *ast_nodes = NULL;
+			sl_parser_error_t parse_error = NULL;
+
+			// Parse the tokens.
+			if ( sl_parser_digest( &parser, tokens, token_count, &ast_nodes, &ast_node_count, &parse_error ) == SL_RES_OK )
+			{
+				sl_codegen_t codegen;
+				sl_codegen_error_t codegen_error;
+				
+				SL_ASSERT( sl_codegen_init( &codegen, "repl" ) == SL_RES_OK );
+				
+				if ( sl_codegen_compile( &codegen, ast_nodes, ast_node_count, &codegen_error ) != SL_RES_OK )
+					SL_DEBUG_LOG( "codegen error: %s", codegen_error );
+
+				SL_ASSERT( sl_codegen_free( &codegen ) == SL_RES_OK );
+			}
+			else
+			{
+				SL_ASSERT( sl_parser_error_print( &parser, &parse_error ) == SL_RES_OK );
+			}
+
+			for ( int32_t i = 0; ast_nodes != NULL && i < ast_node_count; i++ )
+				SL_ASSERT( sl_parser_node_free( &ast_nodes[ i ] ) == SL_RES_OK );
+
+			// Free the nodes buffer.
+			if ( ast_nodes != NULL )
+				free( ast_nodes );
+		}
+		else
+		{
+			SL_ASSERT( sl_lexer_error_print( &lexer, &lex_error ) == SL_RES_OK );
+
+			lexer.line_number += 1;
+			lexer.column_number = 0;
 		}
 
-		if ( token.token_type == TOKEN_SKIP )
-			continue;
+		for ( int32_t i = 0; tokens != NULL && i < token_count; i++ )
+			SL_ASSERT( sl_token_free( &tokens[ i ] ) == SL_RES_OK );
 
-		parser_process_token( &parser, &token );
-
-		if ( token.token_type == TOKEN_EOF )
-			break;
+		// Free the token buffer.
+		if ( tokens != NULL )
+			free( tokens );
 	}
-
-	parser_generate_ast( &parser );
-
-	for ( int i = 0; i < parser.nodes_block.length; i++ )
-	{
-		ast_node_t *node = &parser.nodes_block.nodes[ i ];
-
-		ast_node_print( node );
-	}
-
-	parser_free( &parser );
-}
-
-void run_from_file( const char *file_path )
-{
-	FILE *file = fopen( file_path, "r" );
-
-	// todo: report error
-	if ( file == NULL )
-		return;
-
-	fseek( file, 0, SEEK_END );
-
-	int file_size = ( int )ftell( file );
-
-	char *file_buffer = malloc( file_size );
-
-	fseek( file, 0, SEEK_SET );
-
-	// todo: report error
-	if ( file_buffer == NULL )
-		return;
-
-	memset( file_buffer, 0, file_size );
-
-	fread( file_buffer, 1, file_size, file );
-
-	fclose( file );
-
-	run_script( file_buffer );
-}
-
-void run_from_stdin( )
-{
-	char line_buffer[ 1024 ];
-
-	for ( ;; )
-	{
-		printf( "> " );
-
-		if ( fgets( line_buffer, sizeof( line_buffer ), stdin ) == NULL )
-			continue;
-
-		run_script( line_buffer );
-	}
-}
-
-int main( int argc, char **argv )
-{
-	if ( argc == 1 )
-	{
-		run_from_stdin( );
-	}
-	else
-	{
-		for ( int i = 1; i < argc; i++ )
-			run_from_file( argv[ i ] );
-	}
-
-	return 0;
 }

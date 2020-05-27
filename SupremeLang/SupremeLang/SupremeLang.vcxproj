@@ -19,28 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\codegen\codegen.c" />
-    <ClCompile Include="src\lexer\lexer.c" />
-    <ClCompile Include="src\main.c" />
-    <ClCompile Include="src\parser\ast_block.c" />
-    <ClCompile Include="src\parser\ast_node.c" />
-    <ClCompile Include="src\parser\parser.c" />
-    <ClCompile Include="src\parser\parser_impl.c" />
-    <ClCompile Include="src\string.c" />
-    <ClCompile Include="src\lexer\token.c" />
+    <ClInclude Include="inc\ast.h" />
+    <ClInclude Include="inc\codegen.h" />
+    <ClInclude Include="inc\lexer.h" />
+    <ClInclude Include="inc\parser.h" />
+    <ClInclude Include="inc\result.h" />
+    <ClInclude Include="inc\shared.h" />
+    <ClInclude Include="inc\token.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\codegen\codegen.h" />
-    <ClInclude Include="inc\lexer\lexer.h" />
-    <ClInclude Include="inc\lexer\lexer_error.h" />
-    <ClInclude Include="inc\parser\ast_block.h" />
-    <ClInclude Include="inc\parser\ast_node.h" />
-    <ClInclude Include="inc\parser\ast_node_type.h" />
-    <ClInclude Include="inc\parser\parser.h" />
-    <ClInclude Include="inc\parser\parser_error.h" />
-    <ClInclude Include="inc\shared.h" />
-    <ClInclude Include="inc\string.h" />
-    <ClInclude Include="inc\lexer\token.h" />
+    <ClCompile Include="src\ast.c" />
+    <ClCompile Include="src\codegen.c" />
+    <ClCompile Include="src\lexer.c" />
+    <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\parser.c" />
+    <ClCompile Include="src\token.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -98,14 +91,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(ProjectDir);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir);$(LLVM_ROOT)\build\$(Configuration)\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(LLVM_ROOT)\build\include;$(LLVM_ROOT)\llvm\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(ProjectDir);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir);$(LLVM_ROOT)\build\$(Configuration)\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(LLVM_ROOT)\llvm\include;$(LLVM_ROOT)\build\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -132,7 +127,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);LLVM-C.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -167,7 +162,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(ProjectDir)keystone64.lib;vcruntime.lib;ucrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(ProjectDir);vcruntime.lib;ucrt.lib;%(AdditionalDependencies);LLVM-C.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

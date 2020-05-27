@@ -15,67 +15,46 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\string.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lexer\token.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lexer\lexer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\parser\parser.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\parser\ast_node.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\parser\parser_impl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\parser\ast_block.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\codegen\codegen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="inc\string.h">
+    <ClInclude Include="inc\ast.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\lexer\lexer.h">
+    <ClInclude Include="inc\codegen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\lexer\token.h">
+    <ClInclude Include="inc\lexer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\lexer\lexer_error.h">
+    <ClInclude Include="inc\parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\parser\ast_node_type.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\parser\ast_node.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\parser\parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\parser\parser_error.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\parser\ast_block.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\codegen\codegen.h">
+    <ClInclude Include="inc\result.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\shared.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="inc\token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\codegen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lexer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parser.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\token.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
