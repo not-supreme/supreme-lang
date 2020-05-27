@@ -45,6 +45,13 @@ sl_result_t sl_codegen_free( sl_codegen_t *codegen )
 		codegen->llvm_context = NULL;
 	}
 
+	if ( codegen->llvm_pass_man != NULL )
+	{
+		LLVMDisposePassManager( codegen->llvm_pass_man );
+
+		codegen->llvm_pass_man = NULL;
+	}
+
 	return SL_RES_OK;
 }
 
