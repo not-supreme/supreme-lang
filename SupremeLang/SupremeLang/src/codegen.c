@@ -84,7 +84,8 @@ LLVMValueRef sl_codegen_compile_unary_expr( sl_codegen_t *codegen, sl_parser_nod
 
 	switch ( operator->token_type )
 	{
-	case TOKEN_BANG: return LLVMBuildNot( codegen->llvm_builder, value, "tmp_not" );
+	case TOKEN_BANG:
+		return LLVMBuildNot( codegen->llvm_builder, value, "tmp_not" );
 	case TOKEN_MINUS: return use_fp_instr
 		? LLVMBuildFNeg( codegen->llvm_builder, value, "tmp_neg" )
 		: LLVMBuildNeg( codegen->llvm_builder, value, "tmp_neg" );
@@ -182,7 +183,7 @@ sl_result_t sl_codegen_compile( sl_codegen_t *codegen, sl_parser_node_t *ast_nod
 	for ( int32_t i = 0; i < ast_node_count; i++ )
 	{
 		LLVMTypeRef main_function_type = LLVMFunctionType( LLVMInt32TypeInContext( codegen->llvm_context ), NULL, 0, false );
-		LLVMValueRef main_function = LLVMAddFunction( codegen->llvm_module, "main", main_function_type );
+		LLVMValueRef main_function = LLVMAddFunction( codegen->llvm_module, "", main_function_type );
 		LLVMBasicBlockRef entry = LLVMAppendBasicBlockInContext( codegen->llvm_context, main_function, "entry" );
 
 		LLVMPositionBuilderAtEnd( codegen->llvm_builder, entry );
