@@ -16,8 +16,11 @@
 		}																							\
 	}; break;
 
-#define HANDLE_KEYWORD( keyword, tk_type ) \
-	if ( strcmp( token->as.string, keyword ) == 0 ) { token->token_type = tk_type; return SL_RES_OK; }
+#define HANDLE_KEYWORD( keyword, tk_type )											\
+	if ( strcmp( token->as.string, keyword ) == 0 ) {								\
+		token->token_type = tk_type;												\
+		free( token->as.string ); token->as.string = NULL; return SL_RES_OK;		\
+	}
 
 typedef enum _sl_e_integer_mode_t
 {

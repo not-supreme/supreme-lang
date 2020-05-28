@@ -4,7 +4,7 @@
 
 sl_result_t sl_token_free( sl_token_t *token )
 {
-	if ( token->token_type == TOKEN_IDENTIFIER || token->token_type == TOKEN_STRING && token->as.string != NULL )
+	if ( ( token->token_type == TOKEN_IDENTIFIER || token->token_type == TOKEN_STRING ) && token->as.string != NULL )
 	{
 		free( token->as.string );
 
