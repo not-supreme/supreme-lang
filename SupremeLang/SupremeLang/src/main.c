@@ -60,12 +60,13 @@ int main( )
 				SL_ASSERT( sl_parser_error_print( &parser, &parse_error ) == SL_RES_OK );
 			}
 
+			// Free the AST nodes.
 			for ( int32_t i = 0; ast_nodes != NULL && i < ast_node_count; i++ )
+			{
 				SL_ASSERT( sl_parser_node_free( &ast_nodes[ i ] ) == SL_RES_OK );
 
-			// Free the nodes buffer.
-			if ( ast_nodes != NULL )
-				free( ast_nodes );
+				free( &ast_nodes[ i ] );
+			}
 		}
 		else
 		{

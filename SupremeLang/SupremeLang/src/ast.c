@@ -3,28 +3,42 @@
 #include "../inc/token.h"
 #include "../inc/ast.h"
 
-sl_result_t sl_parser_node_free( sl_parser_node_t *node )
+void sl_parse_node_free_internal( sl_parser_node_t *node, sl_parser_node_t *parent_node )
 {
 	if ( node->node_type == AST_GROUP_EXPR )
 	{
-		SL_ASSERT( sl_parser_node_free( node->as.group_expression ) == SL_RES_OK );
+		sl_parse_node_free_internal( node->as.group_expression, node );
 
 		node->as.group_expression = NULL;
 	}
 	else if ( node->node_type == AST_UNARY_EXPR )
 	{
-		SL_ASSERT( sl_parser_node_free( node->as.unary_expr.operand ) == SL_RES_OK );
+		sl_parse_node_free_internal( node->as.unary_expr.operand, node );
 
 		node->as.unary_expr.operand = NULL;
 	}
 	else if ( node->node_type == AST_BINARY_EXPR )
 	{
-		SL_ASSERT( sl_parser_node_free( node->as.binary_expr.left ) == SL_RES_OK );
-		SL_ASSERT( sl_parser_node_free( node->as.binary_expr.right ) == SL_RES_OK );
+		sl_parse_node_free_internal( node->as.binary_expr.left, node );
+		sl_parse_node_free_internal( node->as.binary_expr.right, node );
 
 		node->as.binary_expr.left = NULL;
 		node->as.binary_expr.right = NULL;
 	}
+	else if ( node->node_type == AST_EXPR_STATEMENT )
+	{
+		sl_parse_node_free_internal( node->as.expr_statement, node );
+
+		node->as.expr_statement = NULL;
+	}
+
+	if ( parent_node != NULL )
+		free( node );
+}
+
+sl_result_t sl_parser_node_free( sl_parser_node_t *node )
+{
+	sl_parse_node_free_internal( node, NULL );
 
 	return SL_RES_OK;
 }
